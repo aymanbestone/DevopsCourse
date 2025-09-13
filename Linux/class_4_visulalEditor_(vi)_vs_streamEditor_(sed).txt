@@ -1,0 +1,142 @@
+class 4 11th June (Wednesday)
+-----------------------------
+
+$ diff aws.txt f1.txt   --> To See diff between these 2 files (aws and f1) are file names
+
+$ wc aws.txt  --> Word count command
+
+  4  33 180 aws.txt  --> ( no of lines, no of words , no of characters)
+
+tac, cp, cat, head, tail, grep, wc, diff
+
+
+========================================
+Text Editors in Linux 
+-------------------
+
+--> vi (visual editor)  --> it is a default editor in Linux machines
+
+--> Using 'vi' we can create new files and we can modify existing file data
+
+--> vi command is having 3 modes
+   1) command mode ( we can just open file and navigate or see the content, we cannot edit or modify or add content in this mode)
+    
+    $ vi <filename> 
+    
+    $ vi devops.txt  ( if a file by the name devops is available thn it will open that existing file if not it will create a new file)
+
+
+   2) insert mode ( to edit that file or to add the content into the file) press i in the keyboard to get into insert mode
+
+
+   3) esc mode ( to come out of insert mode) press esc in keyboard 
+     
+      --> To Save the changes we have made in the file and close the file --> :wq
+      --> To close the file without saving changes --> :q!
+
+File Creation in Linux 
+---------------------
+touch --> To Create an empty file
+
+cat --> To create file with data without opening any editor ( cat can be used to view and for copy too please refer to nodes above)
+
+cp --> Copy one file data into another file ( cp aws.txt devops.txt)
+
+vi --> create and open file for editing (vi f.txt)
+
+
+Reading Data from a file 
+------------------------
+vi --> open the file and we could able to see and navigate over content in command mode
+
+cat --> print/display the file data from top to bottom as it is present in the file
+
+tac --> print/display the data from bottom to top 
+
+rev --> prints/display data in reverse order
+
+head --> prints/display first 10 lines of the file
+
+tail  -->  prints/display last 10 lines of the file
+
+SED  command
+========================
+
+--> SED -> stream editor
+
+--> SED is used to process the data ( substitute , delete, insert ...)
+
+--> SED is a very powerful command in Linux using which we can perform operations on the file without opening it
+
+$ sed 's/Azure/Aws/' aws.txt
+
+Replace first occurance of 'Azure' with 'AWS' in  file  ( Azure and AWS are words here in the file) without saving changes in original file
+
+--------------
+
+$ sed -i 's/Azure/Aws/' aws.txt
+
+Replace first occurance of 'Azure' with 'AWS' in  file and save changes in original file
+
+--------------
+
+$ sed -i 's/Aws/Azure/g' aws.txt
+
+Replace all  occurance of 'Aws' with 'Azure' in  file and save changes in original file
+
+--------------
+$ sed -i '3d' aws.txt
+
+Delete 3rd line of aws.txt file
+
+-------------
+$ sed -i '$d' aws.txt
+Delete last tile of aws.txt file
+
+------------
+
+$ sed '/AWS/d' f1.txt
+
+Delete all lines which contains AWS in f1.txt file
+-----------------------------
+$ sed -n '3,11p' f1.txt
+
+Print the data from f1.txt file from line 3 to 11
+
+--------------------------------
+$ sed '11i\ ai tool for shell scripting' f1.txt
+
+Insert data "ai tool for shell scripting" before 11th line in f1.txt
+
+-------------------
+
+$ sed -i '11i\ ai tool for shell scripting' f1.txt
+Insert data "ai tool for shell scripting" before 11th line in f1.txt and save that changes into the file
+
+-------------------
+
+$ sed '$a\I am loving linux' f1.txt
+
+Add the data after the last line
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
