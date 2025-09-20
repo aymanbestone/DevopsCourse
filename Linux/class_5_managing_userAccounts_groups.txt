@@ -1,0 +1,131 @@
+class 5 12th June(Thursday)
+---------------------------
+
+User Accounts
+--------------
+
+--> Linux is a multi user based OS  --> One Linux Machine can create multiple user accounts and multiple users can perform multi tasking
+
+'ec2-user' is a default user in amazon Linux VM
+
+--> Add new user
+$ sudo useradd Pavan
+
+--> Add password for that new user
+$ sudo passwd Pavan
+
+Changing password for user Pavan.
+New password:
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password:
+passwd: all authentication tokens updated successfully.
+
+--> display users created 
+$ cat /etc/passwd
+
+--> switch user
+$ whoami
+ec2-user
+$ sudo su Pavan
+
+$ pwd
+/home/ec2-user
+
+--> Go to users home directory
+[Pavan@ip-172-31-0-108 ec2-user]$ cd ~
+
+$ pwd
+/home/Pavan
+
+
+---> You need to be ec2-user to make all these changes 
+(get connected to same machine as ec2 -user to perform the following operation or execute $ exit command to come backto ec2-user)
+
+--> Delete user
+$ sudo userdel Pavan
+
+--> Delete user along with user home directory
+$ sudo userdel Pavan --remove
+
+After deleting We we try to switch back to Pavan
+$ sudo su Pavan
+su: user Pavan does not exist or the user entry does not contain all the required fields
+
+--> Changing username 
+
+$ sudo usermod -l <newname> <oldname>
+$ sudo usermod -l kamleshkumar kamlesh
+
+
+User Groups
+---------------
+
+When we create user in Linux, for every user one group also be created with a given username
+--> Create new group
+$ sudo groupadd <groupname>
+
+$ sudo groupadd telusko
+
+
+--> Adding user to a group
+
+$ sudo usermod -aG <groupname> <username>
+
+$ sudo usermod -aG telusko vazra
+
+--> Display users in a group
+
+$ sudo lid -g <groupname> 
+$ sudo lid -g telusko
+ vazra(uid=1003)
+
+--> diplay user belong to which group
+$ id vazra
+uid=1003(vazra) gid=1003(vazra) groups=1003(vazra),1004(telusko)
+
+
+$ id faheem
+uid=1002(faheem) gid=1002(faheem) groups=1002(faheem)
+
+
+$ id kamleshkumar
+uid=1001(kamleshkumar) gid=1001(kamlesh) groups=1001(kamlesh)
+
+$ sudo usermod -aG telusko kamleshkumar
+
+$ sudo lid -g telusko
+ vazra(uid=1003)
+ kamleshkumar(uid=1001)
+
+--> Removing user from a group
+$ sudo gpasswd -d vazra telusko
+Removing user vazra from group telusko
+
+--> Changing group name 
+
+$ sudo groupmod -n <newname> <oldname>
+
+--> Delete the group
+$ sudo groupdel <groupname>
+$ sudo groupdel teluskoai
+
+===================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,146 @@
+======================classe 6===================================
+18th June ( Wednesday )
+-----------------------
+
+changing file/directory ownership
+=================================
+
+chown 
+
+$ sudo chown <newowner> filename
+$ sudo chown Dheeraj aws.txt  --> Change owner of a file
+
+$ sudo chown :<groupname> filename  --> change the owner group
+$ sudo chown :vazra f1.txt
+
+$ sudo chown ownername:groupname  filename ---> change file owner and group owner
+$ sudo chown Dheeraj:vazra filename 
+
+
+chmod vs chown
+==============
+chmod --> To change file/directory permission
+chown --> To change owner / group
+
+
+------------------------------------------------------------
+find & locate command     ---> file location search
+---------------------
+
+locate -> files in locatedb
+find -> files in entire Linux file system ( based on the given path)
+
+$ locate apache
+-bash: locate: command not found
+$ sudo yum install locate
+
+search for the file which contains name as apache
+
+$ sudo find /home -name f1.txt --> search for the file which is having name as f1.txt
+$ sudo find /home -type f -empty  ---> search for empty files inside/home
+
+$ sudo find /home -type d -empty  --> search for empty directories inside/home
+
+
+sudo find . -mtime +30 -print
+
+
+$ sudo find /home -mtime +5 -delete --> Delete 5 days old files inside home directory 
+
+--------------------------------------------------------------
+
+grep vs find
+=============
+
+
+-----------------------------------------
+Working with zip files in Linux
+------------------------------
+
+-> Zip file is used for files archives (Compressed file)
+
+-> $ zip <zip-name> <content>
+
+$ touch f1.txt f2.txt f3.txt alien.txt
+
+$  ls -l
+total 0
+-rw-r--r--. 1 dheeraj dheeraj 0 Jun 18 02:25 alien.txt
+-rw-r--r--. 1 dheeraj dheeraj 0 Jun 18 02:25 f1.txt
+-rw-r--r--. 1 dheeraj dheeraj 0 Jun 18 02:25 f2.txt
+-rw-r--r--. 1 dheeraj dheeraj 0 Jun 18 02:25 f3.txt
+
+
+[dheeraj@ip-172-31-0-108 ~]$ zip telusko *.txt  --> Creating zip file by name telusko and adding all .txt files into it
+  adding: alien.txt (stored 0%)
+  adding: f1.txt (stored 0%)
+  adding: f2.txt (stored 0%)
+  adding: f3.txt (stored 0%)
+
+[dheeraj@ip-172-31-0-108 ~]$ zip -sf telusko.zip  --> printing/displaying content of zipfile
+Archive contains:
+  alien.txt
+  f1.txt
+  f2.txt
+  f3.txt
+Total 4 entries (0 bytes)
+[dheeraj@ip-172-31-0-108 ~]$ ls -l
+total 4
+-rw-r--r--. 1 dheeraj dheeraj   0 Jun 18 02:25 alien.txt
+-rw-r--r--. 1 dheeraj dheeraj   0 Jun 18 02:25 f1.txt
+-rw-r--r--. 1 dheeraj dheeraj   0 Jun 18 02:25 f2.txt
+-rw-r--r--. 1 dheeraj dheeraj   0 Jun 18 02:25 f3.txt
+-rw-r--r--. 1 dheeraj dheeraj 588 Jun 18 02:26 telusko.zip
+
+$ zip -r telusko.zip aws.txt  --> adding aws.txt file into existing zipfile
+
+$ zip -d telusko.zip f3.txt  --> Delete file from existing file
+
+$ rm telusko.zip
+ --> delete the zip file 
+
+$ zip -e alien *.txt --> create a new zip file by the name alien with password
+
+$ unzip alien.zip
+
+
+===================================
+
+Networking commands
+AWK
+systemctl
+package manager (yum , apt ..)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

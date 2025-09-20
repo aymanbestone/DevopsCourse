@@ -1,0 +1,162 @@
+================class 6===========================
+17th June(Tuesday)
+
+sudoers file in Linux
+--------------------
+
+Very Important file in Linux machine
+
+With the help of this file we can control which user can run command as superuser
+
+Note: We must be very careful when we r working with sudoers file 
+
+$ sudo cat /etc/sudoers ---> Print the content of sudoers file
+
+
+$ sudo  visudo
+
+
+## Allow root to run any commands anywhere
+root    ALL=(ALL)     ALL
+dheeraj ALL=(ALL)     ALL
+
+
+cntl+x+y  to come out of the sudoers file
+
+-----------------------------------------
+Enable password based authentication for the user
+-----------------------------------------------
+To enable password authentication for the use3r we have to enable PasswordBasedAuthentication in sshd_config file
+
+$ sudo cat /etc/ssh/sshd_config  --> Display content of sshd_config file
+
+$ sudo vi /etc/ssh/sshd_config  --> Open the file
+ --> Go to insert mode i --> set PasswordAuthentication to yes 
+
+in mac the “sudo cat /etc/ssh/sshd_config” command works.
+
+
+$ sudo systemctl restart sshd --> restart sshd service
+
+---------------------------------------------------
+Login into EC@ Linux VM with a new User other than ec2 user
+----------------------------------------------
+
+Created a new user --> sudo user add Dheeraj
+
+Created a password for the user --> sudo passwd Dheeraj
+
+Configured Dheeraj in sudoers file --> sudo visudo --> Dheeraj ALL=(ALL:ALL) ALL 
+
+Enable password Authentication to yes in sshd_config file --> sudo vi /etc/ssh/sshd_config 
+
+Retarted the sshd service --> sudo systemctl restart sshd
+
+--> Connect to Ec2 Linux VM as  Dheeraj user with password (Without pem file)
+
+
+============================================================================================
+
+File Permission in Linux
+=======================
+
+-> read --> r
+-> write --> w
+-> execute --> x
+
+In Permissions every file will have 3 sections
+--> user (u)
+--> group (g)
+--> otherusers (o)
+
+user group other
+rw-r--r--
+
+user -> read and write
+group -> read
+others -> read
+
+rwxr--r-x
+
+users-> read write execute
+group -> read
+others -> read and execute
+
+Change the file permission
+----------------------------
+
+chmod command
+
+$ chmod u+x alien.txt --> Gives execute permission for user
+
+$ chmod g+w aws.txt --> Gives write permission for group
+
+
+$ chmod o+x alien.txt --> Gives execute permission for others
+
+$ chmod o-x alien.txt --> Removes execute permission for others
+
+$ chmod u-x alien.txt --> Removes execute permission for user
+
+File Permission in the numeric format
+=====================================
+
+0  -> No permission
+
+1 -> execute
+2 -> write
+3 ->  ( execute + write)
+4 -> read
+5 -> 4 + 1 ( read + execute)
+
+6 -> 4 + 2 ( read + write)
+
+7 -> 6 + 1 ( read + write + execute)
+
+rw-r--r--
+
+- -> 0
+x -> 1
+w -> 2
+xw -> 3
+r -> 4
+rx -> 5
+rw -> 6
+rwx -> 7
+
+$ chmod 400 "telusko-keypair.pem"   -> r--------
+
+$ chmod 666 aws.txt --> rw-rw-rw
+
+$ chmod 444 aws.txt --> r--r--r--
+
+$ chmod 777 aws.txt --> rwxrwxrwx
+
+What is default permission for directory in Linux 
+ans --> 755 --> rwxr-xr-x
+
+What is default permission for a file in Linux
+ans-> 644 --> rw-r--r--
+
+Highest permission for any file in Linux ---> 777 --> rwxrwxrwx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
