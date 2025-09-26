@@ -1,0 +1,153 @@
+==============================classe 8===========================================
+19th June (Thursday)
+
+Networking commands
+====================
+wget :It is used to download files from internet
+
+$ wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.106/bin/apache-tomcat-9.0.106.zip
+
+curl : To Send Http request and to get response
+
+curl https://api/endpoints
+
+ifconfig : To get IP address of the machine
+$ ifconfig
+
+ping : To check the connectivity
+$ ping ipadress
+
+$ ping www.google.com
+
+$ ping 192.164.2.1
+
+------------------------
+free : To print/display memory level details
+
+top : To print/display running processes
+-------------------------------------------
+
+package manager (yum , apt ..)
+==================================
+--> Package Managers are used to install /update softwares in Linux machine
+
+Package managers are specific to Linux distribution
+
+Amazon Linux/Red Had / Cent Os ---> yum
+
+Ubuntu /Debian ---> apt
+
+
+--> Install Java on Amazon Linux
+
+$ sudo yum install java
+
+--> Install Java on Ubuntu
+$ sudo apt install java
+
+
+
+--> Install git on Amazon Linux
+
+$ sudo yum install java
+
+
+--> Install maven on Amazon Linux
+
+$ sudo yum install maven
+
+----------------------------------------------------------------
+
+AWK  command 
+============
+It is versatile processing tool in Linux
+
+It allows us to manipulate and extract data from a structured text file usually in a columnar format
+
+awk takes input processes it line by line and performs actions based on specified pattern and rules
+
+awk ' pattern { action } ' file
+
+$ awk '{print}' telusko.txt
+Harsh General Manager 125454
+Sushil lead Manager 25452
+Gaurav tech lead 76563
+Ishan backend manager 545454
+
+
+$ awk '/manager/{print}' telusko.txt
+
+Ishan backend manager 545454
+
+$ awk '/Manager/{print}' telusko.txt
+
+Harsh General Manager 125454
+Sushil lead Manager 25452
+
+
+$ awk '{print $1,$4}' telusko.txt
+
+Harsh 125454
+Sushil 25452
+Gaurav 76563
+Ishan 545454
+
+
+$ awk '{print NR, $0}' telusko.txt
+
+1 Harsh General Manager 125454
+2 Sushil lead Manager 25452
+3 Gaurav tech lead 76563
+4 Ishan backend manager 545454
+
+
+$ awk '{print NR, "-" $1}' telusko.txt
+
+1 -Harsh
+2 -Sushil
+3 -Gaurav
+4 -Ishan
+
+
+--------------------------------
+awk vs sed vs grep  ( assignment )
+==================
+
+inode number 
+============
+
+
+----------------------------------------------------------
+
+Link files in Linux
+-------------------
+
+
+Similar to shortcut files on windows , In linux we can create link files
+--> Hard Link
+--> Soft link
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

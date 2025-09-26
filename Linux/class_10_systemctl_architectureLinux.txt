@@ -1,0 +1,85 @@
+----------------------class 10--------------------------------
+24th June ( Tuesday ) 
+
+systemctl in Linux 
+==================
+
+--> It is a command-line utility in Linux to manage system services
+
+Some common tasks that systemctl can perform are 
+starting service
+stoping service
+restarting service
+enabling /disabling services
+
+examples: 
+	sudo systemctl enable jenkins
+	sudo systemctl start Jenkins
+
+	Verify Jenkins
+
+	sudo systemctl status Jenkins
+
+Retarted the sshd service --> sudo systemctl restart sshd
+
+systemctl start service-name --> start a service
+systemctl stop service-name --> stops a service
+systemctl restart service-name --> restarts service
+systemctl reload service-name ==> reloads configuration files for a service without stopping it
+systemctl enable service-name -> enables a service to start automatically at boot time
+systemctl disable service-name -> disables a service from starting automatically at boot time
+systemctl status service --> shows the current status of a service
+systemctl list-units --type=service -> list all active services
+
+
+------------------------------------------------------------------
+Linux Architecture 
+=====================
+Linux is CLI based free and open source OS which is secured.
+--> It's a multi user  based OS
+--> Highly recommended for project related to servers ( docker, Jenkins ,k8s, nexus, SonarQube ,websevers..)
+
+Hardware 
+Kernel 
+shell
+
+Whenever we execute any Linux commands shell will read our commands and it translates our command into kernel understandable formate
+
+-->shell is a mediator between user and kernel 
+Takes commands from the user (or scripts), interprets them, and passes them to the kernel for execution.
+
+-->Kernel  will convert our commands into Linux hardware understandable format 
+Manages: CPU scheduling, memory management, device drivers (talking directly to hardware), process management, and basic security.
+
+
+File Based Operations
+Text Editors
+Text Filters
+Users Management
+File Permissions
+File Ownership
+Archieves 
+Networking
+sudoers fils
+ssh_config
+static website hosting (httpd)
+package managers
+Linux architecture
+
+==============================================================================================
+Shell Scripting  --> Bash Shell Scripting
+
+
+
+Linux Live Class Notes ==> Telusko (DevOps with AWS Course)
+===========================================================
+Instructor :Hyder Abbas  
+
+( June 2025 )
+
+
+
+
+
+
+
