@@ -1,0 +1,151 @@
+=======================class 1=======================================
+
+25th June ( Wednesday )
+----------------------------------------
+Shell Scripting  --> Bash Shell Scripting
+==========================================
+--> Set of commands we i a file for executing is scripting which is used to automate our daily routine task
+
+--> The process of executing the script file using bash shell is called as bash shell scripting which is used to automate regular task in a project
+
+
+--> Shell script file is saved with extention .sh
+$ vi first-shellscript.sh
+
+cal
+date
+whoami
+pwd
+
+$ sh first-shellscript.sh
+
+To execute shell script file created we use sh command as shown above
+ variable-script.sh
+
+shebang is shell scripting
+---------------------------
+Writing shebang is optional but highly recommended
+
+It's first line of a shell script file the interpreter or shell to be used for executing
+The default shell used is bash
+
+$ echo $SHELL
+/bin/bash
+
+
+#! /bin/bash
+
+Variables 
+===============================
+
+To store the data we use variables in scripting
+There are 2 types of variables 
+1) pre-defined variables /env variables
+$ echo $SHELL
+/bin/bash
+$ echo $USER
+ec2-user
+$ echo $PATH
+/home/ec2-user/.local/bin:/home/ec2-user/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+
+these are system variables which are defined by our system
+
+2) user defined variables 
+id = 4
+name = rohan
+city= Bengaluru
+
+Variable are case sensitive 
+
+There are no data types in shell scripting and we need not to speify the type of data when declaring or creating variables 
+
+
+$ vi  variable-script.sh
+
+#! /bin/bash
+echo "Enter your Name"
+read FULLNAME
+echo "Enter City Name"
+read CITY
+
+echo "Your Name and city : $FULLNAME $CITY "
+
+
+$ sh variable-script.sh
+Enter your Name
+Srikanth
+Enter City Name
+Chennai
+Your Name and city : Srikanth Chennai
+
+--------------------------
+$ vi 02-var-script.sh
+
+#! /bin/bash
+echo "Enter Your City Name"
+read CITY
+echo " City is $CITY "
+unset CITY    -----> To unset or remove value from variable
+echo "City is $CITY "
+
+$ sh 02-var-script.sh
+
+Enter Your City Name
+Pune
+City is Pune
+City is
+
+
+--------------------------------------------------
+Rules to work with variables 
+============================
+Variable name must not start with digits --> 1name ( invalid ) name1 ( valid)
+It must not have any special character --> @ $ #
+
+Note: It is highly recommended to use UPPERCASE for variables naming 
+
+Operators
+============
+Operators are used to perform operations on variables/data
+
+Arithmetic operations
+------------------------
+
+Addition : $((num1+ num2))
+
+Subtraction : $((num1- num2))
+
+Multiplication : $((num1*num2))
+
+Division : $((num1/ num2))
+
+Modulas : $((num1%num2))
+
+$ vi operator-script.sh
+
+#! /bin/bash
+
+echo "Enter the first number to ADD"
+
+read FNUM
+
+echo "Enter the second number "
+
+read SNUM
+
+echo "Result of Addition : $((FNUM+SNUM))"
+
+-----------
+$ sh operator-script.sh
+Enter the first number to ADD
+44
+Enter the second number
+44
+Result of Addition : 88
+
+
+
+
+
+
+
