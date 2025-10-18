@@ -1,0 +1,115 @@
+--------------------class 2------------------------------
+30th June (Monday)
+======================
+
+Comparison operators
+----------------------------- 
+
+equal : ==
+not equal : !=
+greater than : >
+less than : <
+
+---------------------------
+Conditional Statement
+----------------------
+--> Conditional  statements are used to execute commands based on condition
+
+if - else
+
+syntax :
+
+if [ condition 1 ] ; then
+
+    // something
+
+elif [ condition 2 ] ; then
+   
+    // something 
+
+else
+
+    //something else
+
+fi
+---------------------------------------------------------------
+
+$ vi condi-opr.sh
+
+#! /bin/bash
+echo "enter the first num"
+
+read NUM1
+
+echo "enter the second num"
+
+read NUM2
+
+if [ $NUM1 -eq $NUM2 ] ; then
+        echo "Equal"
+else
+        echo "NOT Equal"
+fi
+
+--------------------------------------------------------------
+$ vi 02-condi-opr.sh
+
+#! /bin/bash
+
+echo "Enter first Number"
+
+read N1
+
+if [ $N1 -gt 0 ] ; then
+        echo "positive number "
+elif [ $N1 -lt 0 ] ; then
+        echo "negative number "
+else
+        echo "Number is Zero"
+fi
+
+-----------------------------------------------------------
+loop statements
+===============
+
+--> Loops are used to execute statements multiple times at any given point of time
+
+--> We can use loops in 2 ways
+
+Range based loops ( for loop)
+Conditional based loops ( while ) 
+
+For loop syntax
+----------------
+
+for((initalization ; condtion ; update))
+do
+  //something 
+done
+--------------------------
+Print numbers from 1 to 4
+--------------------------
+$ vi forloop.sh
+#! /bin/bash
+
+for((i=1; i<=4; i++))
+do
+        echo "$i"
+done
+
+
+sh forloop.sh
+
+----------------------
+Print number from 5 to 1
+----------------------
+
+$ vi forloop2.sh
+#! /bin/bash
+
+for((i=5; i>=1; i--))
+do
+        echo "$i"
+done
+
+sh forloop2.sh

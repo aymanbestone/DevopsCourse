@@ -1,0 +1,256 @@
+-------------------------class 3-----------------------------------
+
+1st July ( Tuesday )
+=======================
+
+
+While Loop
+----------------
+
+--> While loop is used to execute statements until condition is true
+
+----------------------------------
+print numbers from 1 to 5
+--------------------------------
+
+
+$ vi while1.sh
+#! /bin/bash
+
+N=1
+
+while [ $N -le 5 ]
+do
+        echo "$N"
+let N++
+done
+
+$ sh while1.sh
+
+
+----------------------------------
+print numbers from 8 to 1
+--------------------------------
+
+
+$ vi while2.sh
+#! /bin/bash
+
+N=8
+
+while [ $N -gt 0 ]
+do
+        echo "$N"
+let N--
+done
+
+$ sh while2.sh
+
+------------------------
+infinite loop 
+------------------------
+--> The loop which get executed or run non stop 
+
+$ vi infinite.sh
+#! /bin/bash
+N=5;
+while [ $N -gt 1 ]
+do
+        echo "$N"
+done
+
+$ sh infinite.sh
+
+Note : press ctrl+c to stop infinite loop
+-----------------------------------------
+
+Functions / Methods
+
+--------------------------
+--> Functions are used to perform some activity / task
+--> Functions are re-usable
+
+syntax
+-----------------
+function functionName( ){
+
+// function body
+}
+
+call function name for execution
+
+fucntionName
+
+----------------------------------------
+
+$ vi function-demo1.sh
+#! /bin/bash
+
+function telusko(){
+        echo "Welcome to telusko learning"
+        echo "Telusko launching Java Spring boot Ai batch on 20th July"
+        echo "It's a weekend batch 9 am to 12 pm sat sun"
+}
+
+telusko
+telusko
+telusko
+
+$ sh function-demo1.sh
+--------------------------------------------
+Q : Write a function which would read a filename from user and print content of that file.
+--------------------------------------------
+$ vi function2.sh
+#! /bin/bash
+
+function doTask(){
+        echo "Enter Your file name "
+        read FNAME
+
+        cat $FNAME
+}
+doTask
+
+press esc
+:wq
+
+$ sh function2.sh
+
+
+------------------------------------------------------
+Q : Write a shell script to define a function that will read a file name from user and check if file is present , if file is not present then create a file and if file is already present print the content of file.
+------------------------------------------------------
+$ vi function-ops.sh
+#! /bin/bash
+
+function fileOps(){
+        echo "Enter File Name"
+        read FNAME
+
+        if [ -f "$FNAME" ]; then
+                echo "File is already there and hence printing content...."
+                cat $FNAME
+        else
+                echo "File is not there to creating new file"
+                touch $FNAME
+                echo "file created..."
+        fi
+}
+
+fileOps
+
+press esc
+:wq
+
+$ sh function-ops.sh
+
+================================================================================
+
+Command line arguments
+-------------------------
+--> Command line arguments are used to supply data/arguments to script file at the time of execution 
+
+$ sh telusko.sh 44 45 45
+
+--> Command line arguments can be accessed in script file as follow below
+
+$# --> To get total number of args passed
+
+$* --> To Read all args
+
+$1 --> To Read first args
+
+$2 --> To Read 2nd args
+
+$0 --> To get script file name
+
+
+$ vi telusko.sh
+#! /bin/bash
+
+echo "Script file name : $0"
+echo "All cmd line args : $*"
+echo "First arg : $1"
+echo "Second args : $2"
+echo "Total Number of args : $#"
+
+-----------------------------------
+$ sh telusko.sh java devops aws
+
+Script file name : telusko.sh
+All cmd line args : java devops aws
+First arg : java
+Second args : devops
+Total Number of args : 3
+
+
+-----------------------------------------------
+
+$ cat add.sh
+#! /bin/bash
+
+RESULT=$(($1+$2))
+
+echo "Sum is : $RESULT"
+
+--------------------
+$ sh add.sh 44 44
+Sum is : 88
+
+========================================================
+
+Assignment 
+------------
+
+Write a shell script to check given string is palindrome or not
+Write a shell script to check given number is prime or not
+Write a shell script to check given number is even or odd
+
+========================================================
+
+Extra part of variable concept
+============================
+
+Note : If we use export command in terminal for setting variables then those variables will be removed once we close our terminal and we refer these variables are temporary variables
+
+Set variables permanently
+=========================
+
+--> We use .bashrc file to set variables permanently for the user
+
+--> cat .bashrc
+
+$ vi .bashrc --> open .bashrc file
+
+
+course=java
+instructor=hyder
+--> added variables into bashrc file
+
+
+
+$ source .bashrc  --> Apply .bashrc changes
+
+Access variables 
+$ echo $course
+echo $instructor
+
+
+Note : In Linux machine, every user will contain their own .bashrc file
+
+
+------------------------------------------
+Set variables for all users of Linux
+-----------------------------------------
+
+If we want to add variables for all users then we can add that in /etc/profile 
+
+$ cat /etc/profile
+
+
+
+
+
+
+
+

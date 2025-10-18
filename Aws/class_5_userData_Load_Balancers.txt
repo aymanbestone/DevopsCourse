@@ -1,0 +1,97 @@
+---------------------class 5-------------------------------------
+user-data in EC2 VM
+====================
+
+--> It is used to execute except while launching EC2 Instance ( VM )
+
+--> User data will execute only once
+
+--> Create an EC2 VM with following user data 
+
+#! /bin/bash
+
+sudo yum install httpd -y
+
+cd /var/www/html
+echo "<html><h1> Telusko Learning App - 1 </h1></html>" > index.html
+service httpd start
+
+--> After the VM is launched access the website using public ip in the web browser
+
+-----------------------------------------------------------------------------------
+
+Load Balancer
+=============
+
+--> When we deploy our app into a single server then we might/may face the following issues/challenges
+
+    -> One Server trying to handle all requests coming to app 
+    -> Increased Burden on the server
+    -> Server may slow down leading delayed responses to the clients
+    -> Server can crash too
+    -> Single Point of Failure
+
+--> To Avoid the above issues, we shall deploy our app into multiple servers and implement the concept of load balancer
+
+--> Load Balancer is used to distribute load to multiple servers in round robin technique
+
+--> The following benefits could be noticed with Load balancer
+   
+    -> Our App will run on Multiple Servers
+    -> Load will be distributed into multiple servers
+    -> Burden will eventually reduced on servers
+    -> Fast Performance 
+    -> High Availability of our app 
+
+-> In AWS there are 4 types of Load Balancers
+
+   -> Application Load Balancer ( http & https )
+   -> Network Load Balancer
+   -> Gateway Load Balancer
+   -> Classic Load Balancer
+
+-----------------------------------------------------
+Practical on Load Balancer
+--------------------------
+
+--> Create EC2 VM 1 with below following user data
+
+#! /bin/bash
+
+sudo yum install httpd -y
+
+cd /var/www/html
+echo "<html><h1> Telusko Learning App - 1 </h1></html>" > index.html
+service httpd start
+
+--> Create EC2 VM 2 
+
+#! /bin/bash
+
+sudo yum install httpd -y
+
+cd /var/www/html
+echo "<html><h1> Telusko Learning App - 2 </h1></html>" > index.html
+service httpd start
+
+--> Add these 2 webservers into one Target Group
+( Follow live class instructions )
+
+--> Create a Application Load Balancer with Target Group (ALB)
+      Schm: Internet Facing   ( Follow live class recordings )
+
+
+Make sure HTTO Protocol with 80 port no is enabled as ALB runs on same
+
+--> Access Load Balancer DNS in browser ( You will notice the requests to our servers getting distributed in round robin technique )
+
+
+
+
+
+
+
+
+
+
+

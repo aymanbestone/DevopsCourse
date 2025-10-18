@@ -1,0 +1,130 @@
+-------------------class 3-------------------------
+
+Types of IP's in AWS 
+======================
+
+1) private ip 
+2) public ip 
+3) elastic ip
+
+-> private IP -> Fixed Ip -> It is used for internal Communication (within VPC).
+
+-> public IP -> Dynamic IP -> It is sued to connect with EC2 VM from outside. When we restart our VM the public IP gets changed.
+
+Dynamic Public IP --> 3.109.213.248    13.235.79.233
+
+Fixed private IP --> 172.31.7.164   172.31.7.164
+
+-> If we want fixed public IP -> Elastic IP -> ( Elastic IP s are paid ) --> Charges would be applied and bills would be generated
+
+Elastic IP Practical's
+=======================
+65.0.78.209  65.0.78.209  --> Same IP irrespective of how many times we restart VM
+
+--> Allocate Elastic IP ( Getting IP from AWS )  ( Elastic IP Section under EC2)
+
+--> Action --> Associate Elastic IP with EC2 VM/Instance
+
+--> Restart VM and Check public IP ( You will notice its same )
+
+--> De-Associated Elastic IP
+
+--> Release Elastic IP to AWS
+
+-----------------------------------------------------------------------------------
+
+Elastic Block Store ( EBS )
+===========================
+
+--> It is a block level storage device ( HDD / SSD )
+
+--> EBS will be attached with EC2 Instance
+
+--> EBS provides both Primary and Secondary storage for EC2 Instances
+
+--> EBS has 2 types of Volumes ( Storage )
+  
+    -> Root Volume
+    -> Additional Volume
+
+=> Root Volume is a default storage which comes whenever we launch a EC2 instance/machine
+
+-> Root Volume is mandatory to have and of we remove root volume from EC2 instance then we cannot start or use the instance/VM
+
+-> Additional Volumes are optional ( we can add or remove any time )
+
+-> For Linux VM, we get around 8 GB as default volume size ( root volume )
+
+-> For windows VM, we get around 30 GB as default volume size ( root volume )
+
+-> EBS Volumes can have upto 16 TB
+
+-> One EC2 VM can have multiple EBS Volumes
+
+-> One EBS Volume can be attached to one EC2 VM at a time not multiple
+
+-> EBS Volumes are specific to Availability Zone
+     
+                 Mumbai ( ap-south-1)
+                 ap-south-1a
+                 ap-south-1b
+                 ap-south-1c
+-> If our EC2 Instance is in ap-south-1a then our EBS volume must also be there in ap-south-1a zone 
+
+
+EBS Volume Types
+==================
+1) General Purpose ( Min: 1 GiB, Max: 16384 GiB )
+
+2) Provisioned IOPS ( Min: 4 GiB, Max: 16384 GiB )
+
+3) COLD HDD ( Min: 125 GiB, Max: 16384 GiB )
+
+4) Throughput optimized ( Min: 125 GiB, Max: 16384 GiB )
+
+5) Magnetic ( Min: 1 GiB, Max: 1024 GiB )
+
+------------------------------------------------------------
+
+EBS Volumes Practical
+======================
+
+--> Create a EC2 Instance -> We will get EBS root vol of 8 GiB
+
+--> Create a New Volume --> Volume section --> create volume --> Select size ( 10GiB) , type 
+
+--> Attach Additional Volume to EC2 VM
+
+--> EC2 Instance will have 2 volumes ( root vol and Additional vol )
+
+--> Connect to the same EC2 instance through terminal ssh and run the commands
+
+    $ lsblk
+NAME      MAJ:MIN   RM SIZE RO TYPE MOUNTPOINTS
+xvda      202:0      0   8G  0 disk      ----> root volume
+├─xvda1   202:1      0   8G  0 part /
+├─xvda127 259:0      0   1M  0 part
+└─xvda128 259:1      0  10M  0 part /boot/efi
+xvdbb     202:13568  0  10G  0 disk       ----> Additional Volume
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,67 @@
+====================class 6================================
+14th July ( Monday )
+
+OSI Model ( Open Systems Interconnection )
+=========
+
+==> How data  travels from a client to a server in a network
+
+The OSI (Open Systems Interconnection) model explains how data travels from a client to a server in a network. It has 7 layers, each with a specific role:
+
+Layer 1 – Physical Layer
+Transfers raw bits (0s and 1s) over cables or wireless signals (e.g., Ethernet, Wi-Fi).
+
+Layer 2 – Data Link Layer
+Provides reliable data transfer between two devices on the same network using MAC addresses. Handles error detection and correction.
+
+Layer 3 – Network Layer
+Routes data between different networks using logical addressing (like IP addresses). Determines the best path to the destination.
+
+Layer 4 – Transport Layer
+Ensures complete and reliable data transfer using protocols like TCP (reliable) or UDP (fast but not reliable).
+
+Layer 5 – Session Layer
+Manages and maintains communication sessions between devices. Handles setup, use, and termination of connections.
+
+Layer 6 – Presentation Layer
+Translates data formats between the application and the network (e.g., encryption, compression, encoding like JPEG, MP4).
+
+Layer 7 – Application Layer
+Closest to the user. Provides network services to applications like web browsers, email clients, etc. (e.g., HTTP, FTP, DNS).
+
+
+
+
+=============================================================================
+Application Load Balancer (ALB)
+------------------------------
+
+Works at OSI Layer 7 
+(Application Layer)
+
+Best for HTTP/HTTPS traffic
+
+Makes routing decisions based on URL, headers, host, etc.
+
+Example: Routes /api/* to one target group and /admin/* to another.
+
+
+Network Load Balancer (NLB)
+-----------------------------
+
+Works at OSI Layer 4 (Transport Layer)
+
+Handles TCP, UDP, and TLS traffic with very high performance and low latency
+
+Ideal for real-time applications, gaming, or VoIP.
+
+
+Gateway Load Balancer (GWLB)
+-------------------------------
+
+Works at OSI Layer 3 (Network Layer)	
+
+Used mainly for third-party appliances like firewalls, deep packet inspection, etc.
+
+Routes traffic based on IP and protocol without modifying the packet.
+

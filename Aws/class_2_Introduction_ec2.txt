@@ -1,0 +1,74 @@
+---------------------------class 2------------------------------------------
+7th July 2025 ( Monday )
+--------------------------
+
+
+EC2 ( Elastic Compute Cloud)
+============================
+
+-> Elastic Compute Cloud -> Most demanded service in AWS
+
+-> Used to Create Virtual Machines/Servers/VM in AWS Cloud
+
+-> EC2 Instance == Server / VM / Laptop / Computer
+
+-> It's a paid service -> Hourly billing 
+   
+   11:15 AM --> 11:30 AM --> 15 mins --> Billed for 1 hour
+   11:00 AM --> 11:05 AM --> 5 mins --> Billed for 1 hour
+
+-> EC2 VM min billing Period is 1 hour
+
+-> AWS provides t2.micro/t3.micro 750 hour( 1 year) of free ec2 instance to encourage learners
+
+-> EC2 VM also have storage with EBS ( Ec2 Linux VM -> 8GB ( default ) , EC2 Windows VM -> 30 GB ( default ) EBS max -> 16 TB )
+
+-> We use AMI(Amazon Machine Image) which represents Configuration required for machine 
+
+  Windows AMI
+  Ubuntu AMI
+  RedHat AMI
+  Amazon Linux AMI
+
+-> To Secure access to EC2 VM we use Key-Pair (.pem) 
+    
+   -> One Key-Pair ( pem ) can be used for multiple ec2-instances
+
+-> We use Security Group to allow incoming and outgoing traffic ( In bound rules and Out Bound rules )
+   
+   -> One Security Group ( SG ) can be used for multiple instances
+
+EC2 VM creation
+===============
+
+--> Create Key Pair( pem file ) 
+   public key   ( aws will keep it )
+   private key ( we get this )
+
+--> Create  a Security Group and update inbound rules based on requirement
+    
+    HTTP :22
+    HTTPS : 443
+    SSH : 22
+
+
+..
+..
+Note : We can create new key pair and Security Group at the time of instance creation also.
+
+--> Create EC2 Instance
+
+ 
+    -> Give a name VM
+    -> SELECT AMI
+    -> Instance Type
+    -> Select Key-pair ( choose existing one or create a new )
+    -> Select Security Group ( choose existing one or create a new )
+    -> Select EBS storage ( keep it default )
+    -> Launch Instance 
+
+
+
+
+
+

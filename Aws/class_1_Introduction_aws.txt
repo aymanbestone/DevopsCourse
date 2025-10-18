@@ -1,0 +1,136 @@
+AWS Live class notes : Telusko 
+Instructor: Hyder Abbas 
+
+3th July 2025 ( Thursday )
+
+Cloud Computing with AWS
+==========================
+
+AWS Services :
+
+In AWS we have 200+ services 
+
+-> Why Cloud and What is Cloud Computing
+-> Cloud Providers
+-> AWS Introduction and Services Overview
+-> Regions & AZ's
+-> EC2 ( Elastic Compute Cloud) -> To Create Virtual Machines ( Hourly )
+-> EBS (Elastic Block Store + volumes + Snapshots) --> Hard Disc, SSD
+-> Load Balancer : To distribute Load
+-> Autoscaling : Adjusting the capacity by based on the demand
+-> S3 : Unlimited Storage
+-> RDS : Relational Database service
+-> EFS : Shared File system ( Elastic file system
+-> IAM : Identity & Access Management
+-> VPC : Virtual Private Cloud ( Networking )
+-> Cloud Formation : Infrastructure as a code ---> Terraform
+-> AWS CLI : AWS Command Line Interface
+-> Elastic Beanstalk : Platform as a service
+-> AWS Lambdas : Serverless computing
+-> EKS : K8S cluster ( Elastic Kubernetes Service )
+-> Route 53: Domain mapping
+-> Cloud Watch 
+-> SNS : Simple notification Service
+-> Billing Overview
+
+=================================================================================
+
+Infrastructure 
+---------------
+--> The resources required to run our project / company ( Machines , networks, storage, database, monitoring ......)
+
+--> We can maintain infrastructure in 2 ways 
+1) On-prem infrastructure
+2) Cloud Infrastructure
+
+
+On-prem infrastructure
+======================
+
+--> On-Prem infra --> Purchasing and maintaining all resources by our own
+--> Challenges and limitations of On-prem infrastructure
+    -> Lot of Cost
+    -> Scalability
+    -> Security Issue
+    -> Availability
+    -> Network issue
+
+--> To Overcome the problems of on prem infra most of the companies prefer Cloud Infrastructure
+
+
+Cloud Computing 
+===================
+
+--> Delivering IT resources over internet on-demand basis with "Pay AS You Go model" is referred as Cloud Computing.
+
+   Advantages 
+----------------
+-> Pay as you go
+-> Security
+-> Backup 
+-> Scalability
+-> Availability
+--
+--
+
+Cloud Providers
+===============
+AWS --> Amazon
+Azure --> Microsoft
+GCP --> Google
+Oracle
+Ali Baba
+Salesforce
+--
+--
+--
+
+Cloud Service Models
+====================
+1) IAAS : Infrastructure as a service
+
+2) PAAS : Platform as a service
+
+3) SAAS : Software as a service
+
+IAAS : Infrastructure as a service
+----------------------------------
+--> Provider will provide infrastructure 
+    ex: Machines(servers), storage, network
+--> We need to take care of platform and application
+
+Your Responsibility: Operating systems, applications, data, runtime, middleware.
+
+PAAS : Platform as a service
+----------------------------
+--> Provider will provider ready made platform to run our app ( Provider will take care of infrastructure and platform )
+ex: AWS Elastic beanstalk
+
+The provider handles the underlying infrastructure and the software environment (operating systems, middleware, databases, web servers). You just focus on your code.
+
+Your Responsibility: Your application code, data, and configuration.
+
+
+SAAS : Software as a service
+-----------------------------
+--> Application + Infrastructure + Platform all will be maintained by provider
+--> Provider will give their application to run our business
+
+ex: Zoom , Dropbox, Google Drive ........
+
+=================================================================================
+
+AWS Cloud --> Amazon Webservices
+=========
+
+AWS Providing Cloud Services from 2006 
+
+AWS Works on "Pay As You Go" model
+
+AWS Global Infrastructure
+The AWS Cloud spans 117 Availability Zones(AZ) within 37 Geographic Regions
+
+It is recommended to use nearest region to create infrastructure
+
+
+AWS (Amazon Web Services) is a comprehensive, broadly adopted, and secure cloud platform, offering over 200 fully featured services from data centers globally. It provides on-demand delivery of IT resources and applications via the internet with pay-as-you-go pricing.

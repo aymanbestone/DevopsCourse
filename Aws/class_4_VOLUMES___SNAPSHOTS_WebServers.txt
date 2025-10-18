@@ -1,0 +1,127 @@
+----------------------------class 4-------------------------------------
+9th July 2025 ( Wednesday )
+
+-----------------------------------------
+
+Continue from last class
+
+
+--> Store Data ( files ) into the additional xvdbb dir1Volume we created using following commands
+
+    $ sudo mkfs -t ext4 /dev/xvdbb
+    $ mkdir telusko
+    $ sudo mount /dev/xvdbb telusko
+
+    $ cd telusko
+    $ sudo touch telusko.txt alien.txt
+
+
+--> Detach additional volume from EC2 Instance(VM)
+
+--> Created a new EC2 VM 
+
+--> Attached the same Additional volume into the new VM created
+
+--> Check the files available
+ 
+    $ lsblk
+    $ mkdir telusko
+    $ sudo mount /dev/xvdbb telusko
+    $ cd telusko
+    $ ls -l
+
+
+Note : Once Done with Practice, Detach the additional volumes and delete the volume as shown in the live class. 
+
+-----------------------------------------------------------------------------------------------------
+
+Snapshots
+============
+
+--> Snapshots are used for volumes backup
+
+--> Snapshots are regional specific ( Volumes are zone specific )
+
+--> From volume we can create snapshot and from snapshot we can create a volume
+  
+
+	Volume --> Snapshot --> Volume
+
+--> Snapshots cannot be attached to any VM ( EC2 instance ) directly  however Volumes could be attached to a VM ( EC2 Instance )
+
+
+Q) Copy the data from 1a zone VM to 1b zone vm
+----------------------------------------------------
+--> Create Snapshot from 1a zone volume 
+
+--> From that snapshot create a volume in 1b zone
+
+--> Attach the created 1b volume to 1b VM(EC2 instance)
+
+(refer to live class recordings )
+
+
+Website/WebApp
+========================
+
+
+--> Collection of web pages ( html pages )
+
+--> static websites --> dynamic website
+
+--> static website will give same response for every user ( user page for all users )
+
+--> dynamic website will give response specific to user or diff response for diff users
+   ex: gmail, telusko, facebook ........
+
+--> To Host Any website or webapp we must have webservers 
+
+---------------------------------------------------
+Host a static website using httpd server
+-------------------------------------------------
+
+--> Webserver is a tool/software which is used to host/run websites
+
+--> We can use 'httpd' as a webserver in our Linux VM
+
+
+$ sudo yum install httpd --> Install httpd webserver
+ 
+$ sudo service httpd start --> start httpd webserver
+
+
+--> httpd webserver runs on 80 port number
+--> To access our website we need to enable 80 port number in security group ( watch live class recording to see how to do it )
+
+--> Navigate to web content directory
+
+$ cd /var/www/html
+
+$ pwd
+/var/www/html
+
+--> Create index.html file within this web directory
+$ sudo vi index.html
+<h1> Telusko deVops Learning </h1>
+
+--> We can access our website using Linux vm public ip
+
+-----------------------------------------------------------------------
+user-data in EC2 VM
+====================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

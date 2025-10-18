@@ -1,0 +1,144 @@
+--------------------------class 4----------------------------------------
+2nd July 2025 ( Wednesday )
+--------------------------------------------------------------------------------------
+
+Scheduling and CRON JOB
+========================
+
+--> It refers to configuring that tasks to be executed automatically. ( Setting Alarm in phone )
+
+--> Similar to alarm trigger m if we want to schedule my Linux commands/script file execution we use CRON to 
+do this.
+
+--> CRON is an utility in Linux to schedule jobs execution.
+     
+    -System health check
+    - Take backup of files
+........
+
+CROND
+=========
+--> CROND is a daemon process ( background process ) , every minute CROND will be checking for CRON JOBS schedule for the execution.
+
+CRON Job Syntax
+=================
+
+one two three four five six
+
+* * * * * <command/scriptfile>
+
+--> First * ---> minutes ( 0-59 )
+--> Second * --> hour ( 0-23 )
+--> Third * --> day of month ( 1-31)
+--> Fourth * --> month of year ( 1-12)
+--> Fifth * --> day of week ( 0-6 / sun-mon )
+
+5 * * * * touch alient.txt
+
+* * * * * touch telusko.txt 
+
+
+More CRON Schedules examples 
+-----------------------------
+
+Run every day @ 5: am --> 0 5 * * * <task/scriptfile>
+
+Run everyday @ 5 pm --> 0 17 * * * <task/scriptfile>
+
+Run 5 min of 9 am of 15 day 8 aug  5th of week --> 5 9 15 8 5 echo "hello"
+
+Runs the command/script file/task once at system startup --> @reboot <task/command/scriptfile>
+
+Runs on 1st day of the month --> 0 8 1 * * <task>
+
+Runs on Every Monday @ 10 am --> 0 10 * * 1 <task/command/scriptfile>
+
+Run on 15th of every month @ midnight ( 00:00)  ---> 0 0 15 * * <task/command/scriptfile>
+
+
+Run every day workday ( Mon - Friday ) 6 pm --> 0 18 * * 1-5 <task/command/scriptfile>
+
+
+Runs every 2 hour starting from top of hour --> 0 */2 * * * <task/command/scriptfile>
+
+
+5 8 15 8 4 --> If august 15th will fall on Thursday 8:05 am it will be executed
+
+------------------------------------------------------------------------------------
+Crontab file --> 
+=============
+Used to configure cronjobs for execution
+
+$ crontab -e --> open crontab file
+
+$crontab -l --> display scheduled jobs
+
+Practicals 
+==================
+
+$ sudo yum update -y
+
+$ sudo yum install cronie -y
+
+
+$ sudo systemctl start crond
+$ sudo systemctl enable crond
+
+$ crontab -l
+no crontab for ec2-user
+
+$ crontab -e  --> opens crontab file where we can edit current users cron jobs
+$ crontab -u root -e --> opens crontab file where we can edit root user cron jobs
+
+
+Execute cronjobs as shown in live class
+==============================================
+
+Shell Script to print system info
+====================================
+ 
+$ vi  systemdetails.sh
+#! /bin/bash
+
+# hostname system
+echo "Hostname : $(hostname)"
+
+#current date and time
+echo "Date and Time : $(date)"
+
+# display system uptime
+
+echo "System uptime : $(uptime)"
+
+#memery usage
+
+echo"Memory usage"
+free -h
+
+
+$ sh systemdetails.sh
+
+
+Absolute vs relative path
+===========================
+
+Absolute Path: Giving someone the complete, exact street address (including city, state, zip code) so they can find it no matter where they start.
+
+An absolute path (also called a full path) is the complete and unambiguous location of a file or directory on a file system, starting from the very top of the directory tree
+
+Relative Path: Giving someone directions from where they currently are ("Go two blocks straight, then turn left"). These directions only make sense if you know the starting point.
+
+A relative path specifies the location of a file or directory in relation to your current working directory (CWD). Its meaning changes depending on where you currently are in the file system.
+
+
+
+
+
+
+
+
+
+
+
+
+
