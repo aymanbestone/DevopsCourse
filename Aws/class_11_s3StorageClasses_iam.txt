@@ -1,0 +1,89 @@
+-----------------------class 11---------------------------------
+Storage Classes in S3
+======================
+--> Storage classes are used to specify how frequently to access the objects from S3
+
+we have diff types of storage classes 
+Standard
+Frequently accessed data (more than once a month) with milliseconds access
+General purpose
+≥ 3
+
+
+Intelligent-Tiering
+Data with changing or unknown access patterns
+General purpose
+≥ 3
+
+Standard-IA
+Infrequently accessed data (once a month) with milliseconds access
+General purpose
+≥ 3
+
+One Zone-IA
+Recreatable, infrequently accessed data (once a month) with milliseconds access
+General purpose or directory
+1
+
+Glacier Instant Retrieval
+Long-lived archive data accessed once a quarter with instant retrieval in milliseconds
+General purpose
+≥ 3
+
+Glacier Flexible Retrieval (formerly Glacier)
+Long-lived archive data accessed once a year with retrieval of minutes to hours
+General purpose
+≥ 3
+
+Glacier Deep Archive
+Long-lived archive data accessed less than once a year with retrieval of hours
+General purpose
+≥ 3
+
+Reduced redundancy
+Noncritical, frequently accessed data with milliseconds access (not recommended as S3 Standard is more cost effective)
+General purpose
+≥ 3
+
+------------------------------------------------
+
+Transfer acceleration
+==========================
+Use an accelerated endpoint for faster data transfers
+( Used to speed up data transfer process in S3 bucket)
+
+Object Lock
+===========
+
+==> Store objects using a write-once-read-many (WORM) model to help you prevent objects from being deleted or overwritten for a fixed amount of time or indefinitely.
+ 
+==> Object Lock works only in versioned buckets.
+
+===============================================================
+
+IAM ( Identity and Access Management )
+=========================================
+
+Two ways access the aws cloud account
+1-> Root Account --> Powerful account with all the access and no restriction
+2 -> IAM account 
+
+--> It is used to manage users, groups, policies and roles
+
+--> IAM is a free service 
+
+--> Root account owner can access everything in AWS without any restrictions 
+    (It is highly recommended to enable high security by enabling Multifactor Authentication MFA for root user account)
+
+As a part of a team or a project you will be getting IAM account credentials with specific access 
+
+
+IAM Policies --> Permissions 
+
+What actions are allowed or denied on which aws resources and under what condition
+
+Resource-specific: Permissions are almost always tied to specific AWS resources (e.g., a particular S3 bucket, an EC2 instance, a DynamoDB table).
+
+No inherent identity: A policy on its own does nothing. It's just a set of rules. It needs to be attached to an identity or a resource to take effect.
+
+

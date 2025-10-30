@@ -1,0 +1,41 @@
+---------------------class 10-----------------------------------
+21st July ( Monday )
+
+-> S3 is a storage service in AWS which supports unlimited storage and works on Object based storage ( audio, file, video file, image, pdf, text....)
+
+-> Every object in S3 is stored in a bucket. To upload files and folders to S3, you'll need to create a bucket where the objects will be stored
+
+-> Bucket names must be 3 to 63 characters and unique within the global namespace. Bucket names must also begin and end with a letter or number. Valid characters are a-z, 0-9, periods (.), and hyphens (-). 
+
+-> It's a pay as you go model
+
+Static Website Hosting with S3
+--------------------------------
+( Refer live class recordings to see it practical )
+
+S3 buckets could be used to host a static website however these days it's recommended to use AWS amplify to do the same
+
+Versioning 
+===============
+--> Versioning is a means of keeping multiple variants of an object in the same bucket. You can use versioning to preserve, retrieve, and restore every version of every object stored in your Amazon S3 bucket. With versioning, you can easily recover from both unintended user actions and application failures.
+
+--> By default versioning is disabled for S3 bucket 
+  ( Whenever we add new same file again in bucket it will replace or override the old one and if you don;t want to replace old object with new from bucket then we can go with Versioning )
+
+however we can enable in properties --> Bucket Versioning --> enable
+    ( Once Versioning is enabled then we cannot disable but we can suspend it )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

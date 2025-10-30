@@ -1,0 +1,32 @@
+----------------------class 7------------------------------
+==> Autoscaling group
+==================
+
+Why Auto Scaling?
+====================
+
+During events like Big Billion Day Sale, traffic is unpredictable.
+
+You can't manually scale fast enough.
+
+Auto Scaling helps by:
+======================
+
+Increasing instances when traffic goes up
+
+Decreasing instances when traffic goes down
+
+✅ Benefits of Auto Scaling:
+==================================
+Fault Tolerance
+
+If an instance fails, another is launched automatically.
+
+Cost Management
+
+Only run the number of servers needed, saving money during low traffic.
+
+High Availability
+
+Keeps your application running smoothly under heavy load.
+

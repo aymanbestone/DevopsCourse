@@ -1,0 +1,82 @@
+==================class 12===========================
+
+ElasticBeanStalk 
+=================
+1) Infrastructure as s Service ==> IaaS (ex : VPC, S3, RDS, EC2 ....)
+
+2) Platform as a Service ==> PaaS ( ex : Elastic Beanstalk)
+
+3) Software as a Service ==> SaaS ( ex : Zoom meeting, Google meet, ......)
+
+  PaaS ( Elastic Beanstalk) 
+=============================
+-> It provides Platform as a Service ( PaaS ) and Takes care of End to End wepp application management service
+   ( Python, Java, PHP, JS, .Net ......)
+
+-> AWS will provide the platform to run our application 
+
+
+Web-APP
+-------------- 
+-> Writing Code 
+-> Deployement :
+
+  -> Create Network (VPC)
+  -> Create Security Group ( edit inbound rules )
+  -> Create EC2 Instances
+  -> Install Required Softwares/tools to run our codde (N Java, IIS, Tomcat , Maven ......)
+  -> Create Load Balancer
+  -> SetUp Autoscaling group 
+     many more steps before deplyment
+  -> Deploy our app code
+
+Note : If we go with Elastic beanstalk we are responsible only for code deployment and rest of the infrastructure and others parts will be taken care by PaaS ( elastic Beanstalk )
+
+==> Amazon Elastic Beanstalk is an easy-to-use service for deploying and scaling web applications and services developed with Java, .NET, PHP, Node.js, Python, Ruby, Go, and Docker on familiar servers such as Apache, Nginx, Passenger, and IIS.
+
+==> There no specific fix price for elastic beanstalk
+==> There’s no additional charge for Elastic Beanstalk. You pay for Amazon Web Services resources that we create to store and run your web application, like Amazon S3 buckets and Amazon EC2 instances.
+
+
+Practical's on elastic beanstalk
+==================================
+
+--> Create IAM Role with 3 below policies
+    - AWSElasticBeanStalkWorkerTier
+    - AWSElasticBeanStalkWebTier 
+    - AWSElasticBeanStalkMulticontainerDocker
+
+--> Create Application with Beanstalk
+
+--> Create Environment for the application by choosing required runtime ( Follow live class recordings and instructions)
+
+
+================================================================================
+Serverless Computing
+--------------------------
+--> Serverless computing referring to running the app without thinking about servers
+--> AWS will take care of servers required to run our app 
+--> AWS Lambdas are used to implement serverless computing
+
+
+Lambda
+=========
+Run code without thinking about servers
+
+AWS Lambda
+==> lets you run code without thinking about servers.
+==> You pay only for the compute time that you consume — there is no charge when your code is not running. With Lambda, you can run code for virtually any type of application or backend service, all with zero administration.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

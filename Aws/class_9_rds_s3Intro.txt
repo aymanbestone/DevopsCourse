@@ -1,0 +1,63 @@
+-------------------class 9---------------------
+17th july thursday
+------------------------------------
+RDS Lab Task
+
+1 ==> Create MySQL DB Server using RDS ( Refer to Live class recordings )
+
+Creation method : Standard Create
+Engine type : MYSQL
+Templates : Free Tier / Sandbox
+Db instance name identifier : teluskodb
+public access : yes
+Database options : Initial db name : tux-db
+
+Database details ( view Connection details )
+DB End point --> DB user name --> DB password --> DB port
+
+2 ==> Enable MYSQL 3306 port number on security group inbound rules
+
+3 ==> Test MySQL Connection using MySQL Workbench tool
+
+4 ==> Execute Some SQL Queries just to check
+
+5 ==> Delete RDS Instance to avoid billing
+
+========================================
+AWS S3 ( Simple Storage Service )
+
+-> S3 is a storage service in AWS which supports unlimited storage where we can store any amount of data from anywhere
+
+-> S3 supports Object based storage ( files )
+
+-> We can upload or download objects ( file) at  any given point of time using S3
+
+-> In S3, we create buckets to store the data  
+
+( note : Every bucket should have unique name  --> name which has not been used across globe )
+
+-> When we create a bucket an end-point url will be generated to access bucket and using this url we can upload object into bucket every object gets its own end-point url
+
+-> We can create multiple buckets in S3
+
+-> S3 is global service where in buckets are regional specific 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

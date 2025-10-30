@@ -1,0 +1,84 @@
+------------------------class 8-------------------------------
+16th July ( Wednesday )
+
+
+How the app will be deployed by ASG into the new vm created?
+option 1 ==> EKS ( Kubernetes )
+option 2 ==> Custom AMI
+option 3 ==> User Data - script
+
+(refer to a diagram attached and live class )
+
+
+How to connect with ec2 vm when you lost .pem file?
+===================================================
+
+
+EC2 Instances Types
+====================
+
+General purpose: M5 | M5a | M5ad | M5d | M5dn | M5n | M5zn | M6a | M6g | M6gd | M6i | M6id | M6idn | M6in | M7a | M7g | M7gd | M7i | M7i-flex | M8g | M8gd | T3 | T3a | T4g
+
+Compute optimized: C5 | C5a | C5ad | C5d | C5n | C6a | C6g | C6gd | C6gn | C6i | C6id | C6in | C7a | C7g | C7gd | C7gn | C7i | C7i-flex | C8g | C8gd | C8gn
+
+Memory optimized: R5 | R5a | R5ad | R5b | R5d | R5dn | R5n | R6a | R6g | R6gd | R6i | R6idn | R6in | R6id | R7a | R7g | R7gd | R7i | R7iz | R8g | R8gd | U-3tb1 | U-6tb1 | U-9tb1 | U-12tb1 | U-18tb1 | U-24tb1 | U7i-6tb | U7i-8tb | U7i-12tb | U7in-16tb | U7in-24tb | U7in-32tb | U7inh-32tb | X2gd | X2idn | X2iedn | X2iezn | X8g | z1d
+
+Storage optimized: D3 | D3en | I3en | I4g | I4i | I7i | I7ie | I8g | Im4gn | Is4gen
+
+Accelerated computing: DL1 | DL2q | F2 | G4ad | G4dn | G5 | G5g | G6 | G6e | Gr6 | Inf1 | Inf2 | P3dn | P4d | P4de | P5 | P5e | P5en | P6-B200 | P6e-GB200 | Trn1 | Trn1n | Trn2 | Trn2u | VT1
+
+High-performance computing: Hpc6a | Hpc6id | Hpc7a | Hpc7g
+
+
+
+Note : Please go through official documents whenever you need to decide
+==========================================================================
+
+What is EC2 ==> AMI ==> Instance Type ==> VPC (default vpc)  ==> Security Group( inbound and outbound rules ) ==> keypair ( public and private key ) ==>
+EBS ( volumes and snapshots ) ==> Types IPS ==> Elastic ip ==> static website hosting ==> httpd ==> user data ==? load balancers ==> Autoscaling
+
+
+================================
+AWS RDS 
+================================
+
+Database ==> Its a tool/s/w which store data permanently
+
+==> We have relational databases ( tables --> rows and columns ) and no sql dbs ( mongo db ( docluments )
+       
+RDBMS --> oracle , SQLServer, Postgres, MySQL.........
+
+--> Every app will use database
+
+Limitations / Challenges with on_prem Database
+==============================================
+
+-> Purchase DB server License (Cost)
+
+-> Install Database server s/w 
+-> Network -> Security -> Backup -> Administration
+
+==> To overcome the above problems we can go Cloud Providers Database
+
+==> AWS RDS is a database service from AWS which stands for Relational Database Service in AWS Cloud
+
+==> RDS is a fully managed service in AWS --> works based on "pay as you go " model
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+------------------class 14-------------------
+VPC ( Virtual Private Cloud )
+
+Network and Security
+
+==> With the help of VPC we can protect our resources in AWS Cloud
+==> VPC provides flexible secured network to maintain and manage our resources in AWS Cloud
+
+VPC 
+Subnet( public and Private )
+CIDR Block ( IP Ranges )
+Route Tables
+Internet Gateway
+NAT Gateway
+Security Groups --> ( Rules I/o) to allowed ==> Resource level
+NACL     --> Subnet level --> Rules to allow and deny
+VPC Peering
+
+-->IN VPC , Users can define their own IP Addresses range, subnets, route table, network gateway. It provides control over network configuration such as setttimh up policies, firewall rules , network traffic rules and so on
+
+IPs
+==========
+
+Public IP
+Private IP
+Static IP
+( Elastic IPs)
+
+There are several types of IP's ( Internet protocol ) address used in a computer/machine network
+
+IPV4
+====== 
+--> 32 bits 
+--> 4 sets of numbers 
+--> 192.168.1.1 
+--> Uses Dotted decimal notation
+
+IPV6
+======
+--> 128 bits 
+--> 8 sets of four hexadecimal digits
+--> Uses hexadecimal notation with colons 
+--> 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+
+Supports 340 undecillion addresses
+
+VPC Sizing --> Process of allocating IPs

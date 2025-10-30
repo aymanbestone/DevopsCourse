@@ -1,0 +1,62 @@
+----------------------class 13----------------------------------
+Lambda
+=========
+Run code without thinking about servers
+
+AWS Lambda
+==> lets you run code without thinking about servers.
+==> You pay only for the compute time that you consume — there is no charge when your code is not running. With Lambda, you can run code for virtually any type of application or backend service, all with zero administration.
+
+==> Suitable for short span works ex: Batch Process, Image processing , ML ..etc
+
+==> Use one programming language
+
+==> Lambda is designed for event driven architecture where functions are triggered by events from various sources....
+
+
+-----------------------------------------------
+
+Cloud Watch and SNS
+========================
+
+--> Amazon CloudWatch is a monitoring and oberrvebility service which allows users to collect metrics and monitor logs, set alarms and so on..
+--> It supports most of the AWS services for monitoring purpose
+
+
+( Watch live class recordings to see SNS topic configured) 
+Cloud watch and SNS practical task
+===================================
+
+==> Create SNS Topic with Email Notification (Standard Create)
+
+==> Configure Email Subscription in SNS Topic (Confirm Subscription recieved in email)
+
+==> Select EC2 Instance -> Action -> Monitor and trouble Shoot -> Manager Cloud Watch Alarms -> Create cloud watch  Alarm
+    
+  Alaram Notification : Select SNS Topic which we have created
+  Alaram Thresh Hold : Avg CPU >= 2%
+
+==>  Connect to EC2 instance
+
+==> Increase load on the EC2 instance using "stress" software
+
+  $ sudo yum install stress -y
+  $ sudo stress --cpu 8 -v --timeout 60s
+
+==>  Execute stress command 3 to 4 times or any other commands to increate load on server...  
+
+==> Observe the behaviour of Cloud Watch / Alaram / SNS  
+    (We should get Email Notification)
+
+When Alarm got triggered, its status will be changed to 'In Alarm'
+
+==>  We can Monitor our Alarm history (how many times it got triggered)
+
+
+
+
+
+
+
+
+
