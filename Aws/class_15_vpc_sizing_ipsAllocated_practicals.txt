@@ -1,0 +1,85 @@
+---------------------class 15------------------------------
+29th July (Tuesday)
+====================
+
+
+VPC Sizing --> Process of allocating IPs
+
+
+--> Sizing will be calculated in 2 power --> IPv4
+
+172.31.0.0/20 --> 2 pow ( 32-20) --> 2 power 12 --> 4096 --> these many ips could be allocated in that subnet 
+
+172.31.16.0/20  --> 2 pow ( 32-20) --> 2 power 12 --> 4096 --> these many ips could be allocated in that subnet
+
+examples :
+
+10.0.0.0/ 31 --> 2 pow ( 32-31 ) --> 2 pow ( 1) --> 2
+10.0.1.0 / 30  --> 2 power 2 --> 4
+
+10.0.2.0/ 29  --> 2 power 3 --> 8   ( AWS won't support / 29 to  / 32 )
+
+AWS SUpports from / 28
+
+10.2.0.1 / 28 --> 2 power ( 32-28 ) --> 2 power 4 --> 16 
+
+2power 16 is 65536
+
+/ 16 to / 28 is supported by AWS
+
+
+==> CIDR block size must be between /16 and /28
+
+( Also refer to love class recordings and Board work )
+
+
+=============================
+VPC Practicals 
+----------------------
+
+==> Create a VPC
+
+    --> CIDR block --> 10.0.0.0/16
+    --> Select No IPV6 CIDR block
+
+    --> Rest all keep it default
+    --> clock create VPC
+
+==> One Route Table will be created for VPC by default ( rename it to telusko-private-rt)
+
+
+==> Create subnets ( 2 subnets )
+ 
+--> a) create subnet -1 
+    b) name it to telusko-public-sn
+    c) CIDR Block : 10.0.0.0/24 --> 256 ips
+
+--> a) create subnet -2 
+    b) name it to telusko-private-sn
+    c) CIDR Block : 10.0.1.0/24 --> 256 ips
+
+==> Create one more Route table and name it as ( telusko-public-rt)
+
+==> After Route tables are ready --> edit --> attach subnet association
+telusko-private-rt--> private-telusko-sn
+telusko-public-rt --> public-telusko-sn
+
+==> Created new Internet Gateway
+
+==> Attach IGW to public route table created --> telusko-public-rt --> routes and add new route --> internet gateway and select the iGW we created 0.0.0.0/0
+
+==> Create ec2 instance with our own vpc and public subnet 
+==> create ec2 instance with our own vpc and private subnet 
+
+( Also refer to live class recordings )
+test it
+
+
+
+
+
+
+
+
+
+

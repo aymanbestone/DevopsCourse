@@ -1,0 +1,76 @@
+===============class 16==================
+
+Procedure to connect EC2 vm of public subnet to EC2 VM of private subnet
+-------------------------------------------------------------------------
+-> upload pem file into public sn ec2 vm
+-> after uploading provide permission to access pem file
+$ chmod 400 <pem file >
+-> make ssh connection from public sn ec2 vm to private sn ec2 vm 
+$ ssh -i "pem-filename" ec2-user@private-ip
+
+-> After getting connected to private sn ec2 vm try to ping www.google.com , you will not be able to ping or connect as outgoing traffic is not allowed
+
+NAT Gateway must be used in order to allow internet outgoing traffic from private sn machine
+
+VPC with NAT Gateway practicals
+===============================
+Create a NAT gateway in public subnet
+
+Add NAT gateway in private  subnet route table
+
+After adding NAT gatewat to private sn route table we could able to see that from ec2 vm of private subnet we could able to aceess the internet outgoing traffic 
+
+Note : To Avoid bills delete NAT gaetway and elastic ip after practice
+
+VPC Peering to enable communication between two VPCs ( it could be same account or diff account )
+=====================================================
+( Refer to live class recordings  and board work )
+--> left navigation panel under vpc --> Peering Connections
+
+VPC ( Requester ) --> telusko-vpc
+VPC ( ACcepter ) --> default - vpc
+
+==> Now you would see this status pending acceptance
+==> Go to VPC Peering --> Click on Actions --> Accept Request
+==> Make enteries in Route Tables
+==> Navgate to Route Tables , edit routes in default vpc rt
+( local + all tarffic with IGW + telusko-vpc ip range)
+==> Navigate to route table of telusko-vpc and edit the routes
+( local + all tarffic with IGW + telusko-vpc ip range)
+
+==> Edit the security groups of VMs in both default vpc and telusko-vpc
+SSH - 22 - all
+All Traffic
+
+Security Groups
+==================
+--> Acts like a firewall to secure our resources
+--> Security group contans inbound rules ( incoming traffic ) and outbound rules ( outgoing traffic )
+--> One SG we can add 50 rules
+--> We cannot configure deny rules explicitly in security group
+--> Security group is applicanle at resource level and manually we have to add security group to a resource
+--> We can create a security group and use same SG for multiple resources
+
+
+
+NACL
+==========
+NACL ( Network ACcess Control List )
+
+--> Acts like a firewall for our subnets in VPC
+--> It's applicable at subnet level
+--> NACL is appplicable for all resources which are part of a subnet
+--> in NACL we can configure allow and deny rules 
+--> One NACL could be used for multiple subnets
+--> One subnet can have only one NACL
+--> NACL acts as first level of defense for incoming traffic and SG acts like first level of defense for outgoing traffic
+
+
+
+
+
+
+
+
+
+
