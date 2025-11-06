@@ -1,0 +1,64 @@
+=======================class 18==================================
+5th Aug ( Tuesday )
+====================
+( Refer board work attached for this topic )
+
+AWS CLI ( Command Line Interface )
+===================================
+
+Ways to create / provision infra in AWS Cloud
+--> AWS Web console
+--> AWS CLI
+--> AWS Cloud formation ( IAC ) Infrastructure as Code
+--> Terraform ( IAC )
+
+
+DOwnload AWS CLI from 
+
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+For windows : 
+https://awscli.amazonaws.com/AWSCLIV2.msi
+
+https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-instances.html
+
+Follow live class instruction
+
+>aws configure
+AWS Access Key ID [None]: AKIAR47AT
+AWS Secret Access Key [None]: TrJLIVa
+Default region name [None]: us-east-1
+Default output format [None]: table
+
+example
+
+To display s3 buckets
+
+ aws s3 ls
+
+create new s3 bucket
+
+aws s3 mb s3://telusko5544
+
+to delete s3 bucket
+
+aws s3 rb s3://telusko5544
+
+------------
+
+The following command lists all your instances.
+
+
+$ aws ec2 describe-instances
+
+===============================================
+
+Cloud Formation ( IAC )
+================
+AWS CloudFormation provides a common language to describe and provision all the infrastructure resources in your environment in a safe, repeatable way.
+
+
+CloudFormation --> Create stack --> Exisitng template --> Uplaod file ( file i will attach with video lecture ) 
+
+
+==> Verify EC2 dashbaord to se if the instance is created

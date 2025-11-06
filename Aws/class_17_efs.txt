@@ -1,0 +1,45 @@
+========================class 17===================================
+
+Elastic File System ( EFS)
+
+Storage services
+EBS - Elastic Block Store
+S3 - Object STorage
+EFS - File System Storage 
+
+--> AWS EFS lets you create scalable file storage to be used on EC2
+
+--> Amazon Elastic File System (Amazon EFS) provides a simple, scalable, elastic file system for general purpose workloads for use with AWS Cloud services and on-premises resources.
+
+--> Fully Managed by AWS
+
+
+Lab Tasks
+=========
+
+==> Create 2 EC2 VM
+
+==> Create File System ( EFS )
+
+==> Mount EFS on EC2
+
+==> Get connected to ec2 vm and install NFS Client
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
