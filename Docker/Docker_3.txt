@@ -1,0 +1,126 @@
+===================class 3==================================
+
+Pot Mapping -p
+---------------
+docker rum -d -p <hostportno>:<containerportno> nameofimage
+
+$ docker run -d -p 8484:8080 hacker123shiva/springbt-in-docker:latest
+
+By default, containers are isolated and run in their own network namespace.
+
+This means services inside a container (say an app running on port 8080) are not accessible from your host machine or external clients.
+
+To expose the service, you must map a container’s internal port to a port on the host machine.
+
+That’s what -p does in Docker.
+
+-p is used for port mapping between host and container.
+
+
+Dockerfile
+============
+Dockerfile contains instructions to build docker image
+
+(Used to specify where is application code and what dependencies are required + pre built images --> Blue print of docker image)
+
+
+==> The following keywords plays important role creating docker file
+
+FROM
+MAINTAINER
+RUN
+CMD
+COPY
+ADD
+WORKDIR
+EXPOSE
+ENTRYPOINT
+USER
+
+FROM
+-----
+It is used to specify base image for our application
+
+FROM python:3.3
+FROM OpenJDK:17
+FROM tomcat:9.0
+FROM bode:19.5
+FROM mysql:8.5
+
+MAINTAINER
+----------
+
+It is used to specify author of Dockerfile
+
+MAINTAINER Satyasheel <satyatelusko@telusko.com>
+
+
+RUN
+----
+
+RUN keyword is used to specify instructions to execute at the time of image creation
+
+ex: RUN 'git clone<url>
+ RUN 'mvn clean package'
+
+If required we can write multiple RUN instructions in single Docker file and all those instructions will be processed in order
+
+
+CMD
+----
+CMD keyword is sued to specify instructions to execute at the time of docker container creation
+
+ex: CMD 'java -jar app.jar'
+    CMD 'app.py'
+
+One Docker file can have multiple CMD instructions however docker will proceed only last CMD instruction
+
+
+
+example:
+
+$ vi Dockerfile
+
+FROM ubuntu
+
+MAINTAINER Ramu ramu@telusko.com
+
+RUN echo 'hello from telusko'
+
+RUN echo 'hello from haider'
+
+RUN echo 'hello from founder office harsh rawal'
+
+CMD echo 'hi from cmd1'
+
+CMD echo 'hi from cmd2'
+
+$ docker build -t alien .    ==> alien is name of image and . is present directory
+
+$ docker images
+
+$ docker run alien
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,188 @@
+Ansible notes : Telusko DevOps live classes
+Instructor : Hyder Abbas
+
+Ansible
+(Configuration Management)
+======================================
+
+14th Aug ( Thursday )
+
+Configuration Management
+--------------------------
+
+--> Copy required files from one machine to the another
+--> OS updates/patching
+--> Installing required software's in the machine
+
+Limitation associated with manual configuration
+---------------------------------------------
+Error Prone ( possibilities of human made mistakes are high )
+Time consuming process
+Repeated work
+
+
+To overcome the problems associated with manual configuration can go with automation of this nfiguration management in the project
+
+==> To automate the configuration management we have many tools 
+    
+    ==> Chef
+    ==> Ansible 
+    ==> Puppet
+
+
+-----------------------------------------------
+Ansible 
+========
+==> Created in 2012 by Michael DeHaan and 2015 it's acquired by Red Hat and now its license3d under Red Hat
+
+==> Ansible is an open-source automation tool used for configuration management, application deployment, orchestration, and IT infrastructure automation.
+
+==> It is developed in Python Language
+
+==> Configuration Files: Written in YAML (playbooks) for readability and ease of use.
+
+Architecture Components:
+=========================
+
+Control Node – where Ansible is installed and commands are executed.
+
+Managed Nodes – systems being configured.
+
+Inventory – list of managed nodes.
+
+Playbooks – files containing automation instructions(Written in YAML).
+
+=============================
+Ansible SetUp on Linux VM
+
+==> Follow Video instruction attached in Course dashboard
+
+=============================
+
+Ansible Ad-Hoc Commands
+
+---------------------
+
+We have many modules in ansible to perform configuration management
+
+-> ping
+-> shell
+-> copy
+-> yum
+-> service
+
+--------------------------------- 
+
+==> Ping Module
+
+Checks connectivity between the control node and managed nodes.
+
+$ ansible all -m ping
+
+--------------------------------------------
+
+==> Shell Module
+Executes shell commands on managed nodes.
+
+$ ansible all -m shell -a uptime
+
+------------------------------------------
+
+==> YUM Module (for RHEL/CentOS)
+
+Installs, updates, or removes packages
+
+ansible webservers -b -m yum -a "name=git state=present"
+ansible webservers -b -m yum -a "name=httpd state=present"
+
+
+-m → Specifies the module.
+
+-a → Specifies the module arguments.
+
+-b → Runs with become (sudo) privileges.
+
+---------------------------------------------
+==> Service Module
+
+Manages services (start/stop/restart).
+
+ansible webservers -b -m service -a "name=httpd state=started"
+ansible webservers -b -m service -a "name=httpd state=restarted"
+
+-------------------------------------
+
+==> Copy Module
+
+Copies files from control node to managed nodes.
+
+ansible webservers -m copy -a "src=/tmp/index.html dest=/var/www/html/index.html"
+
+=============================================
+
+Ansible Playbooks
+=================
+
+==> A Playbook is a YAML file that contains automation instructions for Ansible.
+
+==> Defines what tasks to perform.
+
+Benefits:
+
+Automates repetitive tasks.
+
+Maintains configuration consistency across environments.
+
+=========================
+
+YAML Basics before Ansible Playbook
+-----------------------------------
+
+==> Yet Another Markup Language (also known as YAML Ain’t Markup Language).
+
+==> Stores data in a format that is human-readable and machine-parsable.
+
+==> file extension for yaml is ==>  .yml or .yaml
+
+YAML Basic syntax understanding
+----------------------------------
+
+employee:
+  id: 4
+  name: Rohan
+  address:
+    area: Richmond town
+    city: Bengaluru
+    state: Karnataka
+    country: India
+  hobbies:
+   - poetry
+   - cricket
+   - running
+  
+student:
+  age: 16
+  name: Vishal
+  hobbies:
+   - cricket
+   - ps5
+   - music
+
+Note : indent spaces are very very crucial in yml file
+
+
+The Official YAML Website : https://yaml.org/
+
+To validate YML syntax : https://www.yamllint.com/
+
+Also we can do same with the help of AI tools
+
+
+
+
+
+
+
+
+
+

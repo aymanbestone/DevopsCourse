@@ -1,0 +1,110 @@
+Terraform ( IAC )
+==================
+
+7th august ( Thursday ) 
+What is Terraform?
+
+Terraform is an infrastructure as code tool that lets you build, change, 
+and version infrastructure safely and efficiently. 
+( To create / provision infrastructure in cloud platform )
+
+==> Develop  by HashiCorp
+
+==> Supports all the popular cloud providers 
+
+==> Terraform use HCL to code 
+    HCL : HashiCorp Configuration Language
+
+==> Terraform file we save with .tf extension
+
+
+Installation Guide 
+==================
+On windows 
+============
+https://developer.hashicorp.com/terraform/install#windows
+
+( Follow Live class Instruction )
+https://youtu.be/UoqoU4IJ3No?si=ISelTckt9HA5pu8J
+
+
+On Linux VM AWS Cloud
+https://youtu.be/x7C-a-Ri8BA?si=VTA5s5hoa0DJnkMv
+
+Create an EC2 instance on aws ( Amazon Linux )
+
+Get connected to that Linux VM
+
+sudo yum install -y yum-utils shadow-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+sudo yum -y install terraform
+
+Verify if its installed 
+
+terraform -v
+
+=======================================
+Terraform Architecture 
+======================
+
+--> Terraform uses HCL to code 
+
+--> Terraform script must be saved with .tf extension
+
+    ( refer diagram attached )
+
+.tf --> terraform init --> terraform fmt --> terraform validate--> terraform plan --> terraform apply --> terraform destroy
+
+terraform init --> To Initialize terraform script
+
+terraform fmt --> Format terraform script ident spacing ( it will get script in proper order )
+
+terraform validate --> Terraform script syntax will be verified ( validated )
+
+terraform plan --> Creates Execution plan for terraform script
+
+terraform apply --> Creates actual resources in cloud based on given plan
+
+terraform destroy -->  It will destroy / delete the resource which got created in cloud
+
+
+Terraform Documentation
+========================
+
+Terraform Registry
+Discover Terraform providers that power all of Terraform's resource types, or find modules for quickly deploying common infrastructure configurations.
+https://registry.terraform.io/browse/providers
+
+
+==================================
+Adding security credentials ( access key and security key )
+
+--> If you're working in local windows machine add this in environtmental variables locally 
+
+--> On Linux VM we can add 
+
+export AWS_ACCESS_KEY_ID= "add your own key"
+export AWS_SECRET_ACCESS_KEY="add your own key"
+
+First Terraform script 
+========================
+
+provider "aws" {
+  region = "ap-south-1"
+}
+resource "aws_instance" "linux_vm" {
+
+  ami             = "ami-0d54604676873b4ec"
+  instance_type   = "t2.micro"
+  key_name       = "terraform-kp"
+  security_groups = ["default"]
+  tags = {
+    Name = "Telusko-Server"
+  }
+}
+
+
+
+
+
+

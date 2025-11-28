@@ -1,0 +1,156 @@
+------------------------class 2------------------------------------
+
+terraform init
+terraform fmt
+terraform validate
+terraform plan
+terraform apply --auto-approve
+terraform destroy --auto-approve ( terraform refers to statefile to delete the resources)
+
+whenever we create resource using terraform then one state file gets created ( .tfstate) which terraform refers to.
+
+Terraform State file 
+====================
+
+==> Stores the current state of your infrastructure so Terraform knows what’s been created, updated, or destroyed.
+
+==>  Used to compare desired configuration (.tf files) with the actual deployed resources.
+
+==> Can contain secrets, passwords, and access keys, so must be protected.
+
+Terraform script to create S3 bucket
+===================================
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_s3_bucket" "my_bucket" {
+  bucket = "telusko-bucket-12345"
+
+ 
+  versioning {
+    enabled = true
+  }
+
+  # Add tags for better organization and resource management.
+  tags = {
+    Name        = "telusko-bucket-12345"
+    Environment = "dev"
+    Project     = "terraform-s3-demo"
+  }
+}
+=========================================================
+Terraform to create EC2 instance with user data
+==================================================
+create a shell script file 
+
+installHttpd.sh 
+
+#! /bin/bash
+
+sudo yum install httpd -y
+
+cd /var/www/html
+echo "<html><h1> Telusko Learning App - 1 </h1></html>" > index.html
+service httpd start
+
+
+Create a terraform script
+
+provider "aws" {
+  region = "ap-south-1"
+}
+resource "aws_instance" "linux_vm" {
+
+  ami             = "ami-0d54604676873b4ec"
+  instance_type   = "t2.micro"
+  key_name       = "terraform-kp"
+  security_groups = ["default"]
+  user_data = file("installHttpd.sh")
+  tags = {
+    Name = "Telusko-Server"
+  }
+}
+
+access static website with 
+
+http://<public-ip>
+=======================================
+
+
+Variables in Terraform 
+======================
+To achieve modularity
+
+1 --> Input Variables
+2 --> Output Variables
+
+==> Input Variables are used to supply data/values to our terraform script
+Instance type
+ami value
+keypair
+
+==> Output Variables are used to get values of certain important data after terraform script is executed
+ example: After S3 bucket created, print bucket info
+          After IAM user got created print IAM user info
+          After ec2 server created print public or private ip
+
+create provider.tf file
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+create input.tf
+
+variable "ami" {
+  description = "Amazon vm image value"
+  default     = "ami-0d54604676873b4ec"
+}
+
+variable "instance_type" {
+  description = "represents the type of instance"
+  default     = "t2.micro"
+}
+
+
+create main.tf
+
+resource "aws_instance" "linux_vm" {
+
+  ami             = var.ami
+  instance_type   = var.instance_type
+  key_name        = "terraform-kp"
+  security_groups = ["default"]
+  tags = {
+    Name = "Telusko-Server"
+  }
+}
+
+===================================================
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

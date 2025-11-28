@@ -67,7 +67,7 @@ Website/WebApp
 
 --> Collection of web pages ( html pages )
 
---> static websites --> dynamic website
+--> static websites != dynamic website
 
 --> static website will give same response for every user ( user page for all users )
 

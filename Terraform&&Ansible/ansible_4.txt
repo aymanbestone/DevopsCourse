@@ -1,0 +1,121 @@
+20th Aug ( Wednesday )
+==========================
+Host Vars
+============
+
+
+--> Server Specific Variables
+
+--> In one group generally we will have multiple servers
+
+--> For every host if you want a separate variable then we can go host vars
+
+
+$ mkdir /etc/ansible/host_vars
+
+$ vi $ mkdir /etc/ansible/host_vars/172.142.1.1.yml
+
+-------------------------------------------------------------------
+
+Ansible Vault
+=============
+
+==> Securing our playbooks
+
+==> With the help of Ansible vault, we can encrypt & decrypt our playbooks
+
+Ansible Vault Commands
+=======================
+
+ansible-vault encrypt <yml> ==> Encrypt our yml ( playbook )
+
+$ ansible-vault encrypt 05-handlers-tags.yml
+
+ansible-vault view <yml> ==> to see original data from encrypted file
+
+$ ansible-vault view 05-handlers-tags.yml
+
+ansible-vault decrypt <yml> ==> decrypt our yml file ( playbook )
+
+ansible-vault edit <playbook-yml> ==? To edit our playbook yml in original format
+
+============================================================
+
+Ansible Roles
+=================
+
+==> Ansible Roles are a way to organise playbook into reusable components 
+==> Instead of writing a long messy playbook, we can break it into smallers parts 
+    (tasks, handlers, variables, files )
+==> Roles makes our automation modular , maintainable and reusable
+ 
+
+$ mkdir roles
+
+$ cd roles
+
+$ ansible-galaxy init apache
+
+$ sudo yum install tree
+
+$ tree apache
+
+$ vi apache/tasks/main.yml
+
+# tasks file for apache
+- name: Install httpd package
+  yum:
+    name: httpd
+    state: latest
+
+- name: Copy index.html file
+  copy:
+    src: index.html
+    dest: /var/www/html/index.html
+  notify:
+    - restart apache
+
+
+$ vi apache/handlers/main.yml
+
+- name: restart apache
+  service:
+    name: httpd
+    state: restarted
+
+
+$ cd ..
+
+
+$ 07-runsetup.yml
+
+---
+- hosts: webservers
+  become: true
+  roles:
+    - apache
+
+
+$ ansible-playbook 07-runsetup.yml
+
+What is Ansible Tower?
+=============================
+
+A web-based UI + REST API for managing Ansible at scale.
+
+Provides a central place to run playbooks, manage inventories, credentials, and users.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+Docker Notes
+============
+Telusko -> DevOps with AWS Live course
+
+Instructor : Hyder Abbas
+
+Docker(Containerization) + K8S (Orchestration) + Jenkins(CICD)
+===============================================================
+Linux and Bash Shall Scripting
+AWS Crash Course
+Terraform 
+Ansible
+Tomcat
+Git
+Maven
+
+Docker
+======
+Application Architecture 
+=========================
+1) User Interface --> Frontend --> End user will use app through ui
+   (HTML CSS JS Angular, Reactjs ....)
+
+
+2) Backend --> Business logic
+   (Java, Python, .Net, .....)
+
+3) Database : Store Data --> Storage
+   (MySQL, SQLServer, MongoDb, Oracle.....)
+
+Application Code --> Java, MySQL, Angular 16 --> Tomcat
+
+If we want to run our app code, then we must setup all required dependencies(Softwares which are required to run our application) in the machine
+Example : Java + MySQL + Angular + Tomcat Server
+
+Application Environments
+=======================
+DEV, SIT, UAT, PILOT, PROD
+
+Dev Env used by Developers for code integration testing
+
+SIT env used by Testers for System Integration testing
+
+UAT env used by client team for acceptance testing (Go or No Go)
+
+Pilot env is used for pre-production testing
+
+Prod env used for live deployment(end users can access our app)
+
+
+As a devOps engineer we are responsible to setup infrastructure to run our app  
+--> We need to setup dependencies in all the environments(DEV< SIT< UAT< PILOT< PROD) to run our application
+
+
+In this case there is a high chance of doing mistakes in dependencies installation process (Version compatability issues can occur)
+
+
+Solution for the above problem could be solved in 2 ways
+==> Virtualization
+==> Containerization
+( Refer board work attached with diagrams and Live class recordings )
+
+==> To Simplify application execution in any machine we can go with Docker
+
+
+Docker 
+========
+==> Docker is a free and open source software/tool
+
+==> Used for Containerization  --> We can run our application in any machine
+
+==> Container ==> application code + application dependencies
+(Docker will take care of dependencies installation required for our app)
+==> It will make our app portable using Docker
+
+
+
+
+
+
+
+
+

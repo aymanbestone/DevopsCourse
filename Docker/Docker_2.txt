@@ -1,0 +1,133 @@
+==================class 2======================
+
+Docker Architecture
+===================
+=> Docker file -> used to specify where the app code and what dependencies are required for app execution
+( Docker file is required to build docker image )
+
+=> Docker Image => Package which contains code + dependencies
+A Docker image is like a blueprint (or template).
+
+It contains everything needed to run an application: the code, runtime, libraries, environment variables, and configuration files.
+ 
+=> Docker Registry ==> is used to store Docker Images
+  Docker Hub --> Cloud based registry provided by Docker to use pre built images and to share our images with others 
+
+=> Docker Container
+
+A Docker container is a running instance of a Docker image.
+
+Containers are lightweight, isolated environments that share the host OS kernel.
+
+=> Docker Daemon -> dockerd 
+The Docker daemon is the background process that makes Docker work.
+
+It listens for Docker commands (like docker run, docker build) and manages images, containers, networks, and volumes.
+
+Install Docker in Linux VM
+--------------------------
+--> Create EC2 VM and Connect to that VM using terminal ( SSH Client )
+
+--> Execute following commands
+
+sudo yum update -y 
+# Update yum package manager and -y ==>  auto approve
+
+sudo yum install docker -y
+#install docker
+
+sudo systemctl start docker 
+sudo systemctl enable docker
+
+# Add ec2-user into docker group
+$ sudo usermod -aG docker ec2-user
+
+
+$ exit 
+# reconnect to same ec2-vm
+
+# Verify Docker installation 
+$ docker -v
+
+Docker Commands
+==============================
+
+$ docker images ==> It will display all the docker images 
+
+$ docker ps ==> It will display running docker containers
+
+$ docker ps -a ==> It will display running docker containers and stopped docker conatiners
+
+$ docker pull < image-id/image-name > ==> Get this from docker registry==> To download docker image 
+
+$ docker run <Image-id/Image-name> ==> To run docker image / To create docker conatiner
+
+$ docker rm <container-id> ==> To delete docker container
+
+$ docker rmi < image-id/image-name > ==> To delete docker image 
+
+$ docker stop < container-id> ==> To stop docker container
+
+$ docker start < container-d > ==> To start docker container
+
+note: docker container must be stopped and deleted before deleting docker image
+
+ex:
+
+docker pull hello-world
+
+$ docker images
+
+REPOSITORY    TAG       IMAGE ID       CREATED       SIZE
+hello-world   latest    1b44b5a3e06a   2 weeks ago   10.1kB
+
+$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND    CREATED          STATUS                      PORTS     NAMES
+7878d57f03d0   1b44b5a3e06a   "/hello"   34 seconds ago   Exited (0) 32 seconds ago             elastic_nash
+
+$ docker rm 7878d57f03d0
+7878d57f03d0
+
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+$ docker images
+REPOSITORY    TAG       IMAGE ID       CREATED       SIZE
+hello-world   latest    1b44b5a3e06a   2 weeks ago   10.1kB
+
+$ docker rmi 1b44b5a3e06a
+
+Untagged: hello-world:latest
+Untagged: hello-world@sha256:a0dfb02aac212703bfcb339d77d47ec32c8706ff250850ecc0e19c8737b18567
+Deleted: sha256:1b44b5a3e06a9aae883e7bf25e45c100be0bb81a0e01b32de604f3ac44711634
+Deleted: sha256:53d204b3dc5ddbc129df4ce71996b8168711e211274c785de5e0d4eb68ec3851
+
+$ docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+
+-------------------------------------
+
+$ docker system prune -a ==> System clean up everything is deleted ( stopped containers, unused images ..)
+
+$ docker pull hacker123shiva/springbt-in-docker:latest
+
+$docker run -d <image -d/name> ==> -d ==> represents detached mode
+
+run other commands inn terminal while container is running
+
+$ docker run -d 3f98d4db2087
+
+$ docker logs <container-id> ==> To see logs of container and app
+
+$ docker logs 77d2a5404ec3
+
+
+
+
+
+
+
+
+
+
+

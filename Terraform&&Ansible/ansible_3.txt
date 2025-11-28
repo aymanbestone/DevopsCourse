@@ -1,0 +1,164 @@
+=====================class 2======================
+
+==> Playbook to host static website in webservers group 
+========================================================
+
+---
+- hosts: webservers
+  become: true
+  tasks:
+  - name: install httpd package
+    yum:
+      name: httpd
+      state: latest
+  - name: copy index.html file
+    copy:
+      src: index.html
+      dest: /var/www/html/index.html
+  - name: start httpd server
+    service:
+      name: httpd
+      state: started
+...
+
+
+-----------------------------------------------------------
+
+Handlers and Tags
+=================
+--> Usually in any playbook all the tasks get executed by default in sequential order and Using the concept of Handlers we can execute tasks based on other tasks status
+
+ex: If first task status is changed only then execute 2nd task
+
+--> Handlers are used to notify the tasks to execute
+ 'notify' keyword is used to inform handlers to execute
+
+--> Using Tag we map the task with tag name
+--> We can execute particular task or we can skip particular task
+
+---
+- hosts: webservers
+  become: true
+  tasks:
+    - name: install httpd package
+      yum:
+        name: httpd
+        state: latest
+      tags: [install]
+    - name: copy index.html file
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+      tags: [copy]
+      notify: 
+        start httpd server
+  handlers:
+    - name: start httpd server
+      service:
+        name: httpd
+        state: started
+...
+
+$ ansible-playbook 05-handlers-tags.yml --list-tags   ==> display all tags available in playbook
+
+$ ansible-playbook 05-handlers-tags.yml --tags "install" ==> Execute a task whose tag name is install
+
+$ ansible-playbook 05-handlers-tags.yml --tags "install, copy" ==> Execute a task whose tag name is install and copy
+
+$ ansible-playbook 05-handlers-tags.yml --skip-tags "install" ==> Execute all tasks by skipping install task
+
+
+Variables 
+================
+
+--> Variables are used to store data
+
+==> we have 4 ways of using variables in Ansible
+
+--> Runtime variables
+--> Playbook variables
+--> Group variables
+--> Host Variables
+
+
+
+--> Runtime variables
+------------------------
+--> we will pass variable data at runtime ( at the time of executing playbook )
+
+---
+- hosts: webservers
+  become: true
+  tasks:
+    - name: install httpd package
+      yum:
+        name: "{{package_name}}"
+        state: latest
+    - name: copy index.html file
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+    - name: start httpd server
+      service:
+        name: "{{package_name}}"
+        state: started
+...
+
+
+$ ansible-playbook <yml> --extra-vars package_name=httpd
+
+------------------------------
+
+--> Playbook variables
+------------------------------
+
+--> We can declare variables within the playbook
+---
+- hosts: webservers
+  become: true
+  vars:
+  package_name: httpd
+  tasks:
+    - name: install httpd package
+      yum:
+        name: "{{package_name}}"
+        state: latest
+    - name: copy index.html file
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+    - name: start httpd server
+      service:
+        name: "{{package_name}}"
+        state: started
+...
+
+
+$ ansible-playbook <yml> 
+
+--> Write an Ansible playbook to install Java and Maven in webservers group
+--> Write an Ansible Playbook to install MySQL in dbservers group
+
+Group
+======
+
+Group variables should be created at host inventory location
+
+$ mkdir /etc/ansible/group_vars
+
+$ sudo vi /etc/ansible/group_vars/webservers.yml
+package_name: java
+
+$ sudo vi /etc/ansible/group_vars/dbservers.yml
+package_name: mysql
+
+
+
+
+
+
+
+
+
+
+

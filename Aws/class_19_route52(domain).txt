@@ -1,0 +1,32 @@
+==================================================
+6th Aug ( Wednesday )
+
+Amazon Route 53
+================
+
+==> Domain Name System ( DNS ) Web service
+
+telusko.com , amazon.com, .......
+
+--> Converts domain name ( telusko.com) into IP addresses
+
+
+
+Key Features:
+
+( Buy domain from aws or outside )
+Domain Registration – You can register new domain names directly.
+DNS Routing – Maps domain names to your servers (EC2, S3, etc.).
+Health Checks – Monitors the health of your endpoints and routes traffic accordingly.
+Integration with AWS Services – Works smoothly with EC2, S3, ELB, etc.
+
+
+
+
+
+
+
+
+
+
+

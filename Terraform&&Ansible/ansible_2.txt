@@ -1,0 +1,137 @@
+===================class 2===================
+
+==> Tested Configured setup for ansible
+
+==> Demonstrated adhoc commands
+
+Writing Playbook
+==================
+
+==> Ansible Playbook contains 3 sections
+
+1) Host Section  --> Represents target machines. This config depended on Ansible Inventory file
+2) Variable Section --> used to declare variables required in playbook execution
+3) Task Section --> defines the task/activity/operation which we want to perform on managed nodes using ansible
+
+==> Playbook to ping managed nodes
+-----------------------------------
+
+==> Connect to control node
+==> switch to ansible user
+
+( we have configured ansible user earlier )
+$ sudo su ansible
+$ cd ~
+
+$ vi 01-ping.yml
+
+---
+- hosts: all
+  tasks:
+  - name: ping all managed nodes
+    ping:
+    remote_user: ansible
+...
+
+==> Run the playbook using the commans
+   
+   $ ansible-playbook <playbook-filename>
+
+   $ ansible-playbook 01-ping.yml
+
+
+-----------------------------------
+
+$ ansible-playbook <playbook.yml> -v  #normal verbose
+$ ansible-playbook <playbook.yml> -vv # more detailed
+$ ansible-playbook <playbook.yml> -vvv # debugging level
+$ ansible-playbook <playbook.yml> -vvvv # full connection debugging level
+
+
+Adding the -v option makes Ansible run in verbose mode — it shows more details about what’s happening during execution.
+
+Levels of Verbosity
+===========================
+
+-v (single v):
+
+Shows task results with more detail than the default.
+
+Example: instead of just "ok" or "changed", you’ll see module names and extra info.
+
+-vv (double v):
+
+Shows even more details.
+
+Includes extra task debugging, such as variable values and more descriptive output.
+
+-vvv (triple v):
+
+Very detailed debug information.
+
+Shows connections, SSH commands, and raw module arguments.
+
+Helpful for troubleshooting why a task is failing.
+
+-vvvv (four v’s):
+
+Maximum verbosity.
+
+Includes connection-level debugging (like full SSH communication).
+
+Rarely used unless deep debugging is required.
+
+--------------------------------------------------------------------------------
+
+$ ansible-playbook 01-ping.yml --syntax-check ===> to check syntax of playbook
+
+$ ansible-playbook 01-ping.yml --list-hosts ==> Display info about hosts to be affected by a playbook
+
+$ ansible-playbook 01-ping.yml --check ==> dry run
+
+
+$ ansible-playbook 01-ping.yml --step  ==>confirm each task execution before running ( it will execute one step at a time )
+
+PLAY [all] **********************************************************************************************************************************
+Perform task: TASK: Gathering Facts (N)o/(y)es/(c)ontinue: y
+
+-------------------------------------------------------------------
+ ==> Playbook to create a file in all managed nodes 
+
+---
+- hosts: all
+  tasks:
+  - name: create a file in all managed nodes
+    file:
+     path: /home/ansible/alien.txt
+     state: touch
+...
+
+---------------------------------------
+==> Playbook to install maven
+
+---
+- hosts: webservers
+  become: true  
+  tasks: 
+    - name: Install Maven
+      yum:
+        name: maven
+        state: latest     
+...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
