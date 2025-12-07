@@ -1,0 +1,226 @@
+====================class 6=============================
+
+ENTRYPOINT
+----------
+==> ENTRYPOINT is used to execute instructions at the time ff docker container creation
+
+ex:
+# Run the JAR
+ENTRYPOINT ["java", "-jar", "telusko-1.0.jar"]
+
+ENTRYPOINT ["java", "-jar", "SpringBoot02-0.0.1-SNAPSHOT.jar"]
+
+Note: CMD instruction we can override using command line arguments where ENTRYPOINT instruction we cannot override rather it will append
+
+ex: docker run myapp --server.port=8080
+
+If we pass arguments when running the container, Docker will append them to ENTRYPOINT
+It will not override and it always runs "java", "-jar", "telusko-1.0.jar"
+
+The final command would be  "java", "-jar", "telusko-1.0.jar" myapp --server.port=8080
+
+CMD vs ENTRYPOINT
+-----------------
+Use ENTRYPOINT when you want your container to always execute a specific app.
+
+Use CMD when you want to provide defaults that the user can override.
+
+Use both together for flexibility.
+
+COPY
+====
+==> It is used to copy files from our host machine to container 
+
+ex:
+
+First Source ( Copy from ) and then destination ( paste into )
+
+# Copy JAR file from Gradle build output
+COPY build/libs/telusko-1.0.jar /usr/app/
+
+COPY target/SpringBoot02-0.0.1-SNAPSHOT.jar /usr/app/
+
+ADD keyword
+=============
+==> It is also used to copy files from source to destination
+ex: 
+
+ADD build/libs/telusko-1.0.jar /usr/app/
+
+ADD <http-url> /usr/app
+
+It can copy from internet also
+
+WORKDIR
+=======
+Used to set working directory ( directory navigation )
+
+COPY build/libs/telusko-1.0.jar /usr/app/
+
+WORKDIR /usr/app
+
+
+EXPOSE 
+======
+It is used to specify on which port number our app will run in container
+
+EXPOSE 8080 ==> It will not change port number rather its only to provide information about port number to other team members
+
+USER
+====
+==> It is used to set USER to run commands
+
+
+Task 1: Dockerizing Python App
+Task 2: Dockerizing React App
+Task 3: Setting Up MySQL Db using Docker
+Task 4: Run Jenkins Server using Docker
+
+Docker file commands 
+
+$ docker images
+$ docker ps
+$ docker ps -a
+$ Dockerfile
+$ docker build -t <image-name> .
+$ docker run <imageid-imagename>
+$ docker run -d <imageid-imagename>
+$ docker run -d -p 8080:8080 <imageid-imagename>
+$ docker pull haidertelusko/java-web-app:latest
+$ docker login
+$ docker tag java-web-app haidertelusko/java-web-app
+$ docker push haidertelusko/java-web-app
+$ docker stop <container id>
+$ docker system prune -a
+$ docker logs <container-id>
+
+Docker Network
+==============
+--> Network is all about communication and Docker network is sued to provide isolated network for containers
+
+--> If we run two containers under same network then these two containers can communicate with each other
+
+By default there are 3 network in Docker
+----------------------------------------
+==> bridge
+==> host
+==> none
+
+==> Bridge network is a default network for docker containers 
+    It is used to run standalone containers and it will assign one IP address
+
+Each container gets a private IP from Docker’s bridge subnet (e.g., 172.17.x.x).
+
+Containers on the same bridge can communicate with each other using these IPs.
+
+==> Host network is also used to run  stand alone containers and it will not assign any IP for our containers
+
+docker run -d --network host nginx
+
+nginx will run directly on hostsIP and no port mapping is required
+
+When you want to use host's ports directly. Usually useful for high performance scenarios
+
+
+==> None refer to no network will be available for the container
+     
+   Whenever we need complete isolation with no network access and if you don't need any connectivity then we can go with none
+
+   ex: docker run -d --network none my-app
+
+
+docker network commands
+=======================
+
+$ docker network ls 
+
+# display docker networks available
+NETWORK ID     NAME      DRIVER    SCOPE
+21c3eded6374   bridge    bridge    local
+c6d26fcab92c   host      host      local
+20cf839f94d5   none      null      local
+
+$ docker network create <networkname>
+
+$ docker network create telusko-network
+# create new network 
+
+# inspect docker network
+$ docker network inspect telusko-network/bridge/host
+
+cd my-web-app
+
+$ docker build -t my-web-app .
+
+$ docker run -d -p 8080:8080 --network telusko-network <image-id>
+
+$ docker network rm telusko-network 
+# delete the network
+
+
+In addition to the default bridge network, Docker supports several other network drivers, including:
+
+1️⃣ Overlay Network (Docker Swarm/Kubernetes)
+Purpose: Used for multi-host networking, especially in Docker Swarm mode.
+
+How it works: It allows containers running on different Docker hosts (part of a Swarm cluster) to communicate securely as if they were on the same host.
+
+Use case: Perfect for orchestration and service discovery in microservices architecture.
+
+2️⃣ Macvlan Network
+Purpose: Assigns a real (physical) IP address from your LAN to a container.
+
+How it works: The container appears as a separate physical device on the network.
+
+Use case: Useful when containers need to be accessed directly from other devices on the same physical network (e.g., legacy apps, network appliances).
+
+
+Docker Compose
+Docker Volume
+Docker Swarm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

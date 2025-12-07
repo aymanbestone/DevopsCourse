@@ -1,0 +1,117 @@
+===============class 5======================
+
+Dockerizing SpringBoot Simple App
+--------------------------------
+Clone Existing Spring Boot App From Git Repo
+
+(make sure git and maven is installed)
+$ git Clone <repo-link>
+
+$ git Clone https://github.com/Haider7214/SpringBoot.git
+
+$ ls -l
+
+Get into the app directory
+
+$ mvn clean package
+
+Note: make this changes in pom.xml
+
+vi pom.xml
+
+        <properties>
+    <java.version>17</java.version>
+        </properties>
+
+
+
+$ vi Dockerfile
+FROM openjdk:17-jdk-slim
+MAINTAINER Dheeraj
+
+COPY target/SpringBoot02-0.0.1-SNAPSHOT.jar /usr/app/
+
+WORKDIR /usr/app
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "SpringBoot02-0.0.1-SNAPSHOT.jar"]
+
+$ docker build -t springboot .
+
+$ docker run -d <imagename/imageid>
+
+
+==============================================
+Dockerizing SpringBoot Gradle App ( rest api)
+===============================================
+
+$ git clone https://github.com/Haider7214/SpringBootGradle.git
+
+Make sure Gradle Build tool is installed
+-----------------------------------------------
+Gradle installation:
+
+wget https://services.gradle.org/distributions/gradle-8.10.2-bin.zip -P /tmp
+
+sudo mkdir /opt/gradle
+sudo unzip -d /opt/gradle /tmp/gradle-8.10.2-bin.zip
+
+echo 'export PATH=$PATH:/opt/gradle/gradle-8.10.2/bin' >> ~/.bashrc
+source ~/.bashrc
+
+gradle -v
+
+-----------------------------------------
+
+Build jar file 
+
+$ gradle clean build -x test
+
+$ vi Dockerfile
+
+# Use lightweight Java image
+FROM openjdk:17-jdk-slim
+
+# Maintainer info
+LABEL maintainer="Dheeraj"
+
+# Copy JAR file from Gradle build output
+COPY build/libs/telusko-1.0.jar /usr/app/
+
+WORKDIR /usr/app
+
+# Expose Spring Boot default port
+EXPOSE 8080
+
+# Run the JAR
+ENTRYPOINT ["java", "-jar", "telusko-1.0.jar"]
+-------------------------------------
+
+$ docker build -t telusko-app .
+
+$ docker run -d -p 8080:8080 telusko-app
+
+$ docker ps 
+
+$ docker stop <container-id>
+
+
+Note: push this image into docker registry
+
+================================================
+Dockerizing Python App
+Dockerizing React App
+
+Docker Network
+==============
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,89 @@
+======================class 9======================
+
+After setup we have 1 master node and 2 worker node(slave nodes) in our cluster
+
+==> Pull the existing image from docker registry or create a new image 
+
+$ docker pull hacker123shiva/springbt-in-docker:latest
+ 
+$ docker images
+
+It will display images in this machine
+
+==> We deploy app as a service in Docker Swarm
+
+==> Service is a collection of one or more containers of same image (same app)
+
+==> Replica is one of the service in docker swarm 
+
+==> By Default 1 replica will be created after we run our service
+
+$ sudo docker service create --name <service-name> -p <hostport>:<containerport> <imagename>
+
+$ sudo docker service create --name telusko-web-app -p 8080:8080 hacker123shiva/springbt-in-docker
+
+Service name could be anything 
+
+$ sudo docker service ls ==> Check services created
+
+ID             NAME              MODE         REPLICAS   IMAGE                                      PORTS
+jtfm91rbvcq4   telusko-web-app   replicated   1/1        hacker123shiva/springbt-in-docker:latest   *:8080->8080/tcp
+
+
+$ docker service scale <servicename>=<no.of.replicas>
+
+$ docker service scale telusko-web-app=3
+
+
+$ sudo docker service ps <servicename> ==> Service details
+
+$ sudo docker service ps telusko-web-app
+
+
+ID             NAME                IMAGE                                      NODE               DESIRED STATE   CURRENT STATE                ERROR     PORTS
+0t8zeoaeikxw   telusko-web-app.1   hacker123shiva/springbt-in-docker:latest   ip-172-31-42-101   Running         Running 6 minutes ago
+uqmezxwz9t9f   telusko-web-app.2   hacker123shiva/springbt-in-docker:latest   ip-172-31-45-185   Running         Running about a minute ago
+ilxd72r45b6n   telusko-web-app.3   hacker123shiva/springbt-in-docker:latest   ip-172-31-36-232   Running         Running about a minute ago
+
+$ sudo docker swarm leave 
+
+$ sudo docker swarm leave --force ==> Remove one node from swarm forcefully 
+
+$ sudo docker service rm <servicename> ==> Remove docker service
+
+Summary:
+========
+Fundamentals : App architecture and tech stack, app env ( Problem which docker could solve )
+Virtualization vs Containerization 
+Docker Intro, Setup, Architecture
+Dockerfile
+Keyword in Dockerfile
+Docker Images
+Docker Container
+DetachedMode and PortMapping
+Docker Register (DockerHub)
+Push/Pull image from Docker Hub
+Dockerizing Simple Web App
+Dockerizing SpringBoot Java Web App
+Docker Compose
+Running multiple app/containers (Springboot app + MySQL)
+Docker Network
+Docker Volume
+Docker Swarm
+
+Multi-Stage Dockerfile
+Dockerizing a Python Web App
+Dockerizing a React App
+
+Kubernetes
+
+
+
+
+
+
+
+
+
+
+

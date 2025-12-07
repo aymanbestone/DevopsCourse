@@ -1,0 +1,233 @@
+15th Sept (Monday)
+
+=========================class 10=============================
+Dockerizing a Python Web App
+============================
+
+either clone exisiting python web app from git or create on for demo
+
+$ mkdir python-web-app
+
+python-web-app
+├── Dockerfile
+├── app.py
+└── requirements.txt
+
+
+$ vi app.py
+==============
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello from Dockerized Flask App! Telusko Learning"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+
+
+$ vi 
+=======================
+flask
+
+
+$ vi Dockerfile
+================
+
+FROM python:3.11-slim   # Official python base image
+
+LABEL MAINTAINER="SATYASHEEL"  # Maintainer indo
+
+WORKDIR /app # Setting work directory inside container
+
+COPY requirements.txt .    # Copy requirements.txt
+
+RUN pip install --no-cache-dir -r requirements.txt   # Install dependencies
+
+COPY . .  #Copy entire code all code files
+
+EXPOSE 5000   # exposing python flask app post number
+
+CMD ["python", "app.py"]  # run the app ENTRYPOINT can also be specified 
+
+Commands after structure is ready
+=====================================
+
+$ docker build -t python-flask-app .
+
+$ docker images
+
+REPOSITORY         TAG       IMAGE ID       CREATED          SIZE
+python-flask-app   latest    036b8f5bf7c7   11 minutes ago   140MB
+
+
+$ docker run -d -p 5000:5000 python-flask-app
+
+$ docker ps 
+
+<public ip of ec2 instance>:5000  ( make sure security group 5000 is enabled )
+
+curl http://localhost:5000
+
+==================================================================================
+Dockerizing a Sample React App
+=================================
+
+# Enable Node.js 18 package
+sudo amazon-linux-extras enable nodejs18
+
+# Install Node.js & npm
+sudo yum install -y nodejs
+
+# Verify
+node -v
+npm -v
+
+--------------------------------------
+$ npx create-react-app telusko-react-app
+
+$ cd telusko-react-app
+
+ cd src
+
+$ vi App.js
+
+import logo from './logo.svg';
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Hello Aliens! Demo ==> React + Docker </h1>
+      <p> Telusko Learning React app demo docker app</p>
+    </div>
+  );
+}
+
+cd ..
+=================================================
+
+$ vi Docker file
+
+FROM node:18 # Base image with node.js (this is required to build react app
+
+LABEL MAINTAINER="SATYASHEEL"
+
+WORKDIR /app  # setting working directory inside container
+
+COPY package*.json ./      # copy package.json and install dependencies
+RUN npm install
+
+
+COPY . .  # copy all source code
+
+RUN npm run build  # build react app after we run this output will be inside  /app/build
+
+# Use official Nginx image to serve build files
+FROM nginx:alpine
+
+# Copy React build into Nginx html folder
+COPY --from=0 /app/build /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx in foreground
+CMD ["nginx", "-g", "daemon off;"]
+
+============================================
+
+
+$ docker build -t react-app .
+
+$ docker images
+
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+react-app    latest    99a3dcd6c76b   10 minutes ago   53.7MB
+
+
+$ docker run -d -p 80:80 react-app
+
+<public-ip>
+
+======================================================================
+Multi-Stage Dockerfile
+======================
+# ---------- Stage 1: Build the JAR ----------
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+
+# Set working directory
+WORKDIR /app
+
+# Copy Maven config files first (better caching)
+COPY pom.xml .
+COPY src ./src
+
+# Package the Spring Boot app (skip tests for faster builds)
+RUN mvn clean package -DskipTests
+
+
+# ---------- Stage 2: Run the JAR ----------
+FROM openjdk:17-jdk-slim
+
+LABEL maintainer="Dheeraj"
+
+WORKDIR /usr/app
+
+# Copy only the built JAR from Stage 1
+COPY --from=build /app/target/*.jar app.jar
+
+# Expose Spring Boot default port
+EXPOSE 8080
+
+# Run the JAR
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+
+
+
+
+
+
+
+
+Summary:
+========
+Fundamentals : App architecture and tech stack, app env ( Problems which docker could solve )
+Virtualization vs Containerization 
+Docker Intro, Setup, Architecture
+Dockerfile
+Keyword in Dockerfile
+Docker Images
+Docker Container
+DetachedMode and PortMapping
+Docker Registery (DockerHub)
+Push/Pull image from Docker Hub
+Dockerizing Simple Web App
+Dockerizing SpringBoot Java Web App
+Docker Compose
+Running multiple app/containers (Springboot app + MySQL)
+Docker Network
+Docker Volume
+Docker Swarm
+Multi-Stage Dockerfile
+Dockerizing a Python Web App
+Dockerizing a React App
+
+Kubernetes
+
+
+
+
+
+
+
+
+
+
+
+

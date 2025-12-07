@@ -1,0 +1,163 @@
+==================class 7=====================
+
+Docker Compose
+=================
+==> Usually in a microservice app there will be multiple apis and for every api we may have to create separate containers in that case managing these many containers would be difficult (create / start / stop)
+
+==> To Maintain and manage multiple containers it will be difficult 
+
+==> To Overcome this problem we have docker compose
+
+==> Docker Compose is used for defining and running multi-container Docker applications
+
+==> With single commands we can create / start / stop multiple containers
+
+==> It uses YAM file to configure the application's services ( docker-compose.yml ) 
+
+==> docker-compose file is sued to specify containers info
+
+==> docker-compose.yml is a default and recommednded name for docker compose file 
+
+-----------------------------------------------------------------
+==> There are 4 sections within docker-compose.yml file
+
+version: represents compose yml version 
+
+services: represents containers info (image-name, portmapping ...)
+
+network: represents docker network to run our containers 
+
+volumes: represents containers storage location
+
+===================================
+docker-compose setup
+======================
+$ docker-compose --version
+
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+sudo chmod +x /usr/local/bin/docker-compose
+
+$ docker-compose --version
+
+Practical
+===========
+
+==> Clone the project from repo
+
+$ git clone https://github.com/Haider7214/springboot-mysql-docker-compose.git
+
+$ cd springboot-mysql-docker-compose
+
+$ cd spring-boot-mysql-docker-compose
+
+$ mvn clean package -DskipTest
+
+$ vi Dockerfile
+
+FROM openjdk:17
+EXPOSE 8080
+COPY target/spring-boot-mysql-docker-compose-1.0.jar spring-boot-mysql-docker-compose-1.0.jar
+ENTRYPOINT ["java", "-jar", "/spring-boot-mysql-docker-compose-1.0.jar"]
+
+$ vi docker-compose.yml
+version: "3.8"
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=sbm
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - springboot-db-net
+
+  application:
+    build: .
+    depends_on:
+      - mysqldb   # ✅ fixed
+    ports:
+      - "8080:8080"
+    networks:
+      - springboot-db-net
+    volumes:
+      - /data/springboot-app
+
+networks:
+  springboot-db-net:
+
+
+$ docker build -t spring-boot-mysql-app
+
+$ docker-compose up -d
+
+
+$ docker-compose -f hareesh.yml up -d  ( if you have given your own name for yml file (hareesh.yml)  )
+
+Create docker containers using docker compose (whatever info we have specified inside docker compose file)
+
+$ docker-compose ps ==> Check docker containers running
+
+$ docker-compose stop ==> stop docker containers
+
+$ docker-compose start ==> start docker containers
+
+$ docker-compose down --> it will remove docker containers using docker compose
+
+
+
+Docker Volume
+Docker Swarm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
