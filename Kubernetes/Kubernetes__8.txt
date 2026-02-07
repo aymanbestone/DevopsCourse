@@ -1,0 +1,211 @@
+===============================
+
+Kubernetes JOBS
+===============
+
+==> K8S jobs are resources used to run task in a k8s cluster
+==> They ensure that a specified no of pods completes a task before marking the job is done/completed
+ex: data migration, backups, batch processing
+
+Types of k8s jobs
+================
+
+1) Non-Parallel Job (Default)
+
+Runs a single Pod until completion.
+
+If completions: N is set → it runs Pods sequentially until N completions are achieved.
+
+Example: Data import, DB migration, running a script once.
+
+Key point: Runs one at a time.
+
+2) Parallel Jobs with Fixed Completions
+
+Controlled parallel execution with a fixed total number of Pods.
+Multiple Pods run simultaneously to complete a task
+If specified number of pods completes their task then the Job is considered as complete/done
+
+
+3) Work Queue (Parallel Job with No Fixed Completions)
+Pods keep running until the queue is empty; total count isn’t fixed.
+parallelism: 3
+
+
+===============================
+
+$ vi non-parallel.yml
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: non-parallel-job
+spec:
+  completions: 3   # <- correctly placed here
+  template:
+    metadata:
+      name: non-parallel-pod
+    spec:
+      containers:
+      - name: non-parallel-container
+        image: busybox
+        command: ["echo", "Hello from telusko k8s classes : non-parallel-job"]
+      restartPolicy: Never
+
+...
+
+$ kubectl create -f non-parallel-job.yml
+
+$ kubectl get pods
+$ kubectl get pods
+
+$ kubectl get jobs
+
+$ kubectl logs -l job-name=non-parallel-job
+
+$ kubectl delete job non-parallel-job
+
+================================
+
+$ vi parallel.yml
+
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: parallel-job
+spec:
+  completions: 6   # <- correctly placed here
+  parallelism: 2
+  template:
+    metadata:
+      name: parallel-pod
+    spec:
+      containers:
+      - name: parallel-container
+        image: busybox
+        command: ["echo", "Hello from telusko k8s classes :parallel-job"]
+      restartPolicy: Never
+      
+
+
+$ kubectl create -f parallel.yml
+or
+$ kubectl apply -f parallel.yml
+
+$ kubectl get pods
+$ kubectl get pods
+
+$ kubectl get jobs
+
+$ kubectl logs -l job-name=parallel-job
+
+$ kubectl delete job parallel-job
+
+==========================================
+
+CronJob → A Job that runs on a schedule (like a Linux cron). Example: Cleanup tasks every night.
+
+Runs Jobs on a schedule.
+
+
+$ vi cron-job.yml
+
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: telusko-cronjob
+spec:
+  schedule: "*/1 * * * *" # Runs every minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cron-container
+            image: busybox
+            command: ["echo", "Hello from telusko k8s classes : cron-job"]
+          restartPolicy: Never  # belongs at the same level as containers
+...
+
+
+$ kubectl apply -f cron-job.yml
+$ kubectl get pods
+
+$ kubectl get pods
+NAME                             READY   STATUS      RESTARTS   AGE
+telusko-cronjob-29311348-h79pn   0/1     Completed   0          8s
+
+$ kubectl logs telusko-cronjob-29311348-h79pn
+
+===========================================
+DaemonSet
+============
+
+A DaemonSet ensures that a copy of a Pod runs on every node
+
+Automatically it adds/removes pods when nodes joins/leaves the cluster
+
+Why DaemonSet
+=====================
+Examples:
+
+Log collection → Fluentd, Filebeat, Logstash.
+
+Monitoring agents → Prometheus Node Exporter, Datadog agent.
+
+
+====================
+vi daemonset-k8s.yml
+
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: product-daemon
+  labels:
+    app: telusko
+spec:
+  selector:
+    matchLabels:
+      app: telusko
+  template:
+    metadata:
+      labels:
+        app: telusko
+    spec:
+      containers:
+      - name: cont1
+        image: hacker123shiva/springbt-in-docker:latest
+
+Note : In above k8s manifest file we have not specified replicas however daemonset will ensure that it will create one pod per node 
+
+$ kubectl apply -f daemonset-k8s.ym
+
+$ kubectl get pods -o wide
+
+$ kubectl get nodes
+
+$ kubectl get ds
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

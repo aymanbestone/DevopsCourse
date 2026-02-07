@@ -1,0 +1,283 @@
+====================class 5============================
+
+
+$ vi k8s-nodeport-demo.yml
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp
+  labels:
+    app: teluskowebapp
+spec:
+  containers:
+    - name: javawebappcontainer
+      image: hacker123shiva/springbt-in-docker:latest
+      ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webappsvc
+spec:
+  type: NodePort
+  selector:
+    app: teluskowebapp
+  ports:
+    - port: 80
+      targetPort: 8080
+...
+
+
+$ kubectl apply -f k8s-nodeport-demo.yml
+pod/webapp created
+service/webappsvc created
+
+$ kubectl get pods
+
+$ kubectl get svc
+
+$ kubectl get pods -o wide
+
+
+==> Access the app using public ip of worker node alone side node port number (add node port number in security group)
+
+==> NodePort Number --> If we don't specify node-port number in service manifest yml file then k8s will assign a random node port number for the service within the range of 30000 to 32767
+
+However we can specify node-port number in service manifest yml 
+
+===================================
+
+$ vi k8s-nodeport-demo.yml
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp
+  labels:
+    app: teluskowebapp
+spec:
+  containers:
+    - name: javawebappcontainer
+      image: hacker123shiva/springbt-in-docker:latest
+      ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webappsvc
+spec:
+  type: NodePort
+  selector:
+    app: teluskowebapp
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30544
+...
+
+
+$ kubectl apply -f k8s-nodeport-demo.yml
+pod/webapp created
+service/webappsvc created
+
+$ kubectl get pods
+
+$ kubectl get svc
+
+$ kubectl get pods -o wide
+
+$ kubectl delete all --all
+
+===============================================
+
+$ vi k8s-pod-service-manifest.yml
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp
+  labels:
+    app: teluskowebapp
+spec:
+  containers:
+    - name: javawebappcontainer
+      image: hacker123shiva/springbt-in-docker:latest
+      ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webappsvc
+spec:
+  type: ClusterIP
+  selector:
+    app: teluskowebapp
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30544
+...
+
+$ kubectl apply -f k8s-pod-service-manifest.yml
+
+$ kubectl get pods
+
+$ kubectl get svc
+
+$ kubectl get pods -o wide
+
+$ kubectl delete all --all
+
+ClusterIP will be used to access our pods within the cluster and one static ip will be created to access the pods
+
+===============================================
+
+==> K8S Namespaces
+====================
+
+--> Namespaces are used to group the resources 
+
+
+        frontend-app-pods ==> frontend-app-ns
+
+	backend-app-pods ==> backend-app-ns
+
+	database-app-pods ==> database-app-ns
+
+$ kubectl get ns ==> it will display all namespaces we have in cluster
+
+==> We can create a namespace in k8s cluster
+
+$ kubectl create ns telusko-ns
+
+We can create multiple namespaces in k8s cluster
+
+==> To get the pods available in specific namespace
+
+$ kubectl get pods -n <namespace-name>
+
+$ kubectl get pods -n kube-system
+
+==> We can create a namespace in k8s cluster in 2 ways
+    -> Using kubectl create ns command
+       $ kubectl create ns telusko-ns
+
+    -> using yml file 
+
+$ vi ns.yml
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: telusko-alienns
+...
+
+$ kubectl apply -f ns.yml
+
+$ kubectl get ns
+
+=============================
+ns + pod + service 
+
+$ vi k8s-ns-pod-manifest.yml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: alien-ns
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp
+  namespace: alien-ns
+  labels:
+    app: teluskowebapp
+spec:
+  containers:
+    - name: javawebappcontainer
+      image: hacker123shiva/springbt-in-docker:latest
+      ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webappsvc
+  namespace: alien-ns
+spec:
+  type: LoadBalancer
+  selector:
+    app: teluskowebapp
+  ports:
+    - port: 80
+      targetPort: 8080
+...
+
+$ kubectl apply -f k8s-ns-pod-manifest.yml
+
+$ kubectl get ns
+
+$ kubectl get pods 
+No pod sin default namespace
+
+$ kubectl get pods -n alien-ns
+
+$ kubectl get svc -n alien-ns
+
+$ kubectl get all -n alien-ns
+
+$ kubectl delete ns alien-ns
+
+namespace "alien-ns" deleted
+
+Note : alien-ns is a name given by us to namespace
+
+After deleting namespace we can check there will no pods or service within the namespace
+(All the resource of that namespace will also be deleted)
+
+Orchestration
+K8S intro, benefits
+K8S Architecture
+K8S components
+K8S cluster setup (AWS EKS)
+K8S Resources --> POD, Service (ClusterIP, NodePort and LBR )
+Namespaces
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

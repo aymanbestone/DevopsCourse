@@ -1,0 +1,212 @@
+====================class 4=============================
+
+==> In K8S we use Manifest YML to deploy our app (.yml file)
+
+K8S Manifest YML Syntax
+=======================
+
+---
+apiVersion: <version-number>  --> Define version to use for the resource ( depend of kind)
+kind: <resource-type> --> Type of Kubernetes object you want to create ( Pod, Service, Deployement etc and it's case sensitive)
+metadata: <name>  --> Basic info about the resource
+spec: <container> --> Specification of the k8s object it could how the traffic is rout for Services  or container details for Pods
+...
+
+-> Run/execute k8s manifest file
+
+$ kubectl apply -f <manifest-yml>
+
+==================================
+K8S POD manifest YML
+--------------------
+$ vi k8s-pod-manifest.yml
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp
+  labels:
+    app: teluskowebapp    
+spec:
+  containers:
+    - name: javawebappcontainer
+      image: hacker123shiva/springbt-in-docker:latest
+      ports:
+        - containerPort: 80
+...
+
+$ kubectl apply -f k8s-pod-manifest.yml
+
+pod/webapp created
+
+$ kubectl get pods
+
+NAME     READY   STATUS    RESTARTS   AGE
+webapp   1/1     Running   0          85s
+
+$ kubectl get pods -o wide
+
+It lists all pods in the current namespace but with extra details compared to normal kubectl get pods command.
+
+
+$ kubectl describe pod <pod-name>
+
+Useful for debugging if pod is crashing as this command would give very detailed info about pods 
+
+Note : By Default only Custer IP service would be there and we cannot access pod outside of cluster
+
+======================================================
+kind: Pod → Creates a Pod.
+
+metadata.name: webapp → Pod name.
+
+labels.app: teluskowebapp → Label, used by Service selector to find this Pod.
+
+containers: → Pod will run a container.
+
+name: javawebappcontainer → container name.
+
+image: → Spring Boot app’s Docker image.
+
+containerPort: 80 → Application inside container listens on port 80.
+================================================================
+
+=========================
+K8S Service Manifest Yml
+=========================
+
+$ vi k8s-service-manifest.yml
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webappsvc
+spec:
+  type: LoadBalancer
+  selector:
+    app: teluskowebapp
+  ports:
+    - port: 80
+      targetPort: 8080
+...
+
+----------------------------------------
+Note :   selector:
+    app: teluskowebapp
+
+labels:
+    app: teluskowebapp    # helps services/deployment select this pod (key-value meta data)
+
+
+This matches pods label name and only pod with this label name will receive the traffic
+
+ ports:
+    - port: 80  --> This  Service listens on Port 80
+      targetPort: 8080 --> Container Port ( Container port inside Pod)
+
+ type: LoadBalancer --> external access
+
+-------------------------------------------
+$ kubectl apply -f k8s-service-manifest.yml
+
+check if services is created 
+
+$ kubectl get svc  or $ kubectl get service  ==> info about services in k8s cluster
+
+NAME         TYPE           CLUSTER-IP      EXTERNAL-IP                                                               PORT(S)        AGE
+kubernetes   ClusterIP      10.100.0.1      <none>                                                                    443/TCP        51m
+webappsvc    LoadBalancer   10.100.212.45   a681e665a431441d58927116381c72ac-486994218.ap-south-1.elb.amazonaws.com   80:32328/TCP   7s
+
+We can access our app using loadbalancer DNS url
+
+==> Delete all resources we have created
+
+$ kubectl delete all --all
+
+Assignment
+======================
+Write a Terraform script to create AWS EKS cluster on AWS Cloud
+
+Write a Terraform script to create a VPC on AWS
+======================
+
+K8S POD and Service Manifest in Single YML
+------------------------------------------
+
+$ vi k8s-pod-service-manifest.yml
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp
+  labels:
+    app: teluskowebapp
+spec:
+  containers:
+    - name: javawebappcontainer
+      image: hacker123shiva/springbt-in-docker:latest
+      ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webappsvc
+spec:
+  type: LoadBalancer
+  selector:
+    app: teluskowebapp
+  ports:
+    - port: 80
+      targetPort: 8080
+...
+
+$ kubectl apply -f k8s-pod-service-manifest.yml
+
+$ kubectl get svc
+
+$ kubectl get pods
+
+Access app with load balancer dns url
+
+$ kubectl delete all --all
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

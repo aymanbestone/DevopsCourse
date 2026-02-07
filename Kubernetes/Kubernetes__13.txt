@@ -1,0 +1,234 @@
+==================class 13=========================
+
+ENV Variables
+=============
+It is a way to pass config info to container running within the pods;
+Two ways we can achieve
+
+ENV : Set environment variables for a container
+=====
+
+configmaps and secrets : ENV FROM
+======================
+==> It is used to store the info in key-value pair, files or command line argumanets that can be used by pods within cluster
+
+=> If the data is confidential and need encryption then we must use Secrets
+=> If data is non confidential we can go with config maps
+
+=> 1MB is the limit for configmap
+=> If more than 1MB is required then we can configure and use separate db or file system
+
+Practical
+=============
+$ kubectl create deploy newdb --image=mariadb
+deployment.apps/newdb created
+
+$ kubectl get pods
+
+NAME                     READY   STATUS    RESTARTS   AGE
+newdb-8567f7c987-bfxgw   1/1     Running   0          12s
+
+$ kubectl get deploy
+
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+newdb   0/1     1            0           22s
+
+$ kubectl get pods
+
+NAME                     READY   STATUS             RESTARTS      AGE
+newdb-8567f7c987-bfxgw   0/1     CrashLoopBackOff   5 (17s ago)   3m38s
+
+
+$ kubectl logs newdb-8567f7c987-bfxgw
+
+ [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+        You need to specify one of MARIADB_ROOT_PASSWORD, MARIADB_ROOT_PASSWORD_HASH, MARIADB_ALLOW_EMPTY_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD
+
+$ kubectl set env deploy newdb MYSQL_ROOT_PASSWORD=root123
+deployment.apps/newdb env updated
+
+$ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+newdb-774c5c9ccd-nbv7n   1/1     Running   0          8s
+
+$ kubectl delete deploy newdb
+deployment.apps "newdb" deleted from default namespace
+
+$ kubectl create deploy newdb --image=mariadb
+deployment.apps/newdb created
+
+$ kubectl get pods
+NAME                     READY   STATUS   RESTARTS      AGE
+newdb-8567f7c987-bx2b9   0/1     Error    2 (19s ago)   25s
+
+$ vi vars
+
+MYSQL_ROOT_PASSWORD=root123
+MYSQL_USER=admin
+
+Create config map
+
+$ kubectl create cm dbvars --from-env-file=vars
+
+configmap/dbvars created
+
+$ kubectl get cm
+NAME               DATA   AGE
+dbvars             2      26s
+kube-root-ca.crt   1      7h52m
+
+$ kubectl describe cm dbvars
+
+$ kubectl set env deploy newdb --from=configmaps/dbvars
+
+deployment.apps/newdb env updated
+
+$ kubectl get pods
+NAME                    READY   STATUS    RESTARTS   AGE
+newdb-f979fbd7d-dpdbd   1/1     Running   0          24s
+
+$ kubectl delete deploy newdb
+
+Secrets
+========
+
+$ kubectl create deploy newdb --image=mariadb
+deployment.apps/newdb created
+
+$ kubectl get pods
+NAME                     READY   STATUS   RESTARTS      AGE
+newdb-8567f7c987-d77zh   0/1     Error    2 (25s ago)   30s
+
+Create vars file like above in config map demo
+
+$ kubectl create secret generic my-secret --from-env-file=vars
+
+secret/my-secret created
+
+$ kubectl get secrets
+NAME        TYPE     DATA   AGE
+my-secret   Opaque   2      40s
+
+$ kubectl describe secret my-secret
+
+Name:         my-secret
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+MYSQL_ROOT_PASSWORD:  7 bytes
+MYSQL_USER:           5 bytes
+
+$ kubectl set env deploy newdb --from=secrets/my-secret
+deployment.apps/newdb env updated
+
+
+$ kubectl get pods
+NAME                    READY   STATUS    RESTARTS   AGE
+newdb-f6b7d4df8-zc67g   1/1     Running   0          33s
+
+$ kubectl get secrets my-secret -o yaml
+
+apiVersion: v1
+data:
+  MYSQL_ROOT_PASSWORD: cm9vdDEyMw==
+  MYSQL_USER: YWRtaW4=
+kind: Secret
+metadata:
+  creationTimestamp: "2025-10-01T02:09:22Z"
+  name: my-secret
+  namespace: default
+  resourceVersion: "80064"
+  uid: b4bdf4f9-2543-45ad-a7ac-f60a2aaa6abb
+type: Opaque
+
+$ echo -n "cm9vdDEyMw==" | base64 --decode
+
+root123ubuntu@ip-172-31-41-213:~$
+
+================================================
+
+Kubernetes Sidecar Multi-container Pattern
+===========================================
+It is used to extend and enhance the functionality of a primary application
+
+1 main container and the 2nd container will be helper container for our app main container and this can be called as sidecar(handle cross cutting concern)
+Sidecar pattern ==> To enhance or support the main application at runtime
+
+$ vi sidecar.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-log-demo
+spec:
+  # Define the shared volume at the spec level
+  volumes:
+  - name: shared-logs
+    emptyDir: {}
+
+  containers:
+
+  # --- Primary Container: Log Generator (Alpine) ---
+  - name: log-generator
+    image: alpine:latest
+    # Command to continuously write a timestamp and a message to a log file
+    command: ["/bin/sh", "-c"]
+    args:
+    # Ensure multi-line arguments are indented correctly
+    - while true; do
+        echo "$(date) - Log entry from primary container" >> /var/log/app.log;
+        sleep 5;
+      done
+    
+    # Mount the shared volume to the location where logs are generated
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log # Logs will be written to /var/log/app.log inside the shared volume
+
+  # --- Sidecar Container: Log Shipper/Server (NGINX) ---
+  - name: log-sidecar-nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+
+    # Mount the shared volume where the NGINX container can access the logs.
+    # Mounting to /usr/share/nginx/html/logs makes the logs accessible at http://<pod-ip>/logs/app.log
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /usr/share/nginx/html/logs # NGINX serves content from here
+
+
+$ kubectl apply -f sidecar.yml
+pod/sidecar-log-demo created
+
+$ kubectl get pods
+
+NAME               READY   STATUS    RESTARTS   AGE
+sidecar-log-demo   2/2     Running   0          40s
+
+$ kubectl describe pods
+
+$ kubectl get pods
+NAME               READY   STATUS    RESTARTS   AGE
+sidecar-log-demo   2/2     Running   0          6m20s
+
+$ kubectl exec -it sidecar-log-demo -c log-sidecar-nginx -- /bin/bash
+
+
+root@sidecar-log-demo:/# cd /usr/share/nginx/html/logs
+root@sidecar-log-demo:/usr/share/nginx/html/logs# ls
+app.log
+root@sidecar-log-demo:/usr/share/nginx/html/logs#
+root@sidecar-log-demo:/usr/share/nginx/html/logs# cat app.log
+
+exit
+$ kubectl delete -f sidecar.yml
+
+
+
+

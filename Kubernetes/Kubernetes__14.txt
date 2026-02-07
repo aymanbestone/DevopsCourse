@@ -1,0 +1,193 @@
+==================class 14========================
+
+Ingress Controller
+=================
+
+In K8S, Ingress acts like a smart router or reverse proxy for your cluster which will lets you expose multiple services on one LoadBalancer
+It will Route by hostname(telusko.com), Route by path(/courses, /front-endservice)
+
+We need Ingress Controller to actually enforce these rules
+
+Note : In EKS, the most common choice is the NGINX ingress controller
+
+(Nginx could be used as webserver which serves static files(HTML, CSS...),
+host website directory and for Reverse proxy => Forwards client request to backend app  by adding features like load balancing.)
+
+Instead of exposing each service with a LoadBalancer or NodePort, you 
+can define rules for routing external HTTP/HTTPs traffic into services and Ingress controller actually implements these rules.
+
+
+$ vi nginx-app.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-app
+  template:
+    metadata:
+      labels:
+        app: nginx-app  # This label is used by the Service selector
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: TITLE
+          value: "NGINX APP1"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx-app
+  ports:
+  - port: 80
+
+==========================
+
+$ vi httpd-app.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-deployment
+  labels:
+    app: httpd-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpd-app
+  template:
+    metadata:
+      labels:
+        app: httpd-app  # This label is used by the Service selector
+    spec:
+      containers:
+      - name: httpd-container
+        image: httpd:latest
+        ports:
+        - containerPort: 80 # HTTPD defaults to port 80
+        env:
+        - name: TITLE
+          value: "APACHE APP2"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd-service
+spec:
+  type: ClusterIP
+  selector:
+    app: httpd-app
+  ports:
+  - port: 80
+
+===========================
+
+$ vi ingress.yml
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-web-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /nginx(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
+      - path: /httpd(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: httpd-service
+            port:
+              number: 80
+      - path: /(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
+
+========================================
+Install Ingress Controller
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml
+
+=================================
+$ kubectl apply -f nginx-app.yml
+
+$ kubectl apply -f httpd-app.yml
+
+$ kubectl apply -f ingress.yml
+
+$ kubectl get ing
+NAME                CLASS   HOSTS   ADDRESS                                                                    PORTS   AGE
+nginx-web-ingress   nginx   *       a7dadf727c8654c28a04a6f096673ed6-1585683398.ap-south-1.elb.amazonaws.com   80      3m37s
+
+access the app load balancer/path
+
+a7dadf727c8654c28a04a6f096673ed6-1585683398.ap-south-1.elb.amazonaws.com/nginx
+
+a7dadf727c8654c28a04a6f096673ed6-1585683398.ap-south-1.elb.amazonaws.com/httpd
+
+Client hits the Ingress load Balancer IP/DNS (created by ingress controller)
+and Ingress checks the path and request gets rewritten and routed to the right service
+
+Note : This Ingress is a single entry point for both nginx and httpd-service using path based routing
+=============================================================================
+
+HELM
+=====
+
+Amazon Linux / Red Had ==> yum
+Ubuntu ===> apt
+
+Helm is a package manager which is used to install required softwares in k8s cluster
+
+Similar to yum/apt package manager in Linux distribution HELM allows us to install applications on Kubernetes cluster
+
+HELM used charts in order to achieve this
+
+Charts here refers to collection of configuration files (manifest yml)
+
+Using HELM charts we can install Prometheus server, Grafana server, ......)
+
+
+
+
+
+
+
+
+
+
+
+

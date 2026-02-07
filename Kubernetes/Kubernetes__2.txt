@@ -1,0 +1,109 @@
+===========================class 1======================================
+
+==> Create EKS management HOST in AWS
+
+    -> Create a Linux Machine (Ubuntu VM) using AWS EC2 (t2.micro)
+    -> Connect to this machine and install kubectl , aws cli and eksctl
+
+install kubectl  ==> To interact with k8s cluster
+install aws cli  ==> command-line tool for managing aws services 
+install eksctl   ==> It makes creating and managing EKS cluster easier (if we don't us ethis to create cluster the steps are complex)
+
+
+# install kubectl
+=================
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+# Make executable and move to /usr/local/bin
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+# Verify installation
+kubectl version --client --output=yaml
+
+=================
+# install aws cli
+=================
+
+# Install unzip (adjust for your package manager)
+# For Debian/Ubuntu
+$ sudo apt update && sudo apt install -y unzip
+
+==> optional use only if it dmamaoznlinux
+# For RHEL/CentOS amazon linux
+$ sudo yum install -y unzip
+# Download and install AWS CLI v2
+
+
+
+$ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+ unzip awscliv2.zip
+ sudo ./aws/install
+
+# Clean up
+
+$ rm -rf awscliv2.zip aws
+
+# Verify installation
+
+$ aws --version
+
+
+=================
+# install eksctl
+=================
+# Download and extract the latest eksctl
+
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+
+# Move to /usr/local/bin
+
+sudo mv /tmp/eksctl /usr/local/bin/
+
+
+# Verify installation
+
+eksctl version
+
+
+======================
+==> Create IAM Role and attach to EKS Management HOST
+
+-> Create a new Role using IAM Service (Select USE case EC2)
+-> Add below permission
+AdministratorAccess
+AmazonEC2FullAccess
+AmazonVPCFullAccess
+AWSCloudFormationFullAccess
+IAMFullAccess
+
+-> Enter role name (alien_eks_role)
+
+-> Attached the created role to eks management host vm ==> Actions ==> Security ==> Modify IAM role ==> Add created iam role
+
+
+=============================================================
+==> Create EKS Cluster using eksctl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

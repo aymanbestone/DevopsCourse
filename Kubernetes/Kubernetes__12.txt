@@ -1,0 +1,108 @@
+=====================class 12==========================
+30th SEP Tuesday
+=================
+Kubernetes Pod statuses
+======================
+ContainerCreating : This is a waiting state, k8s trying its best to create pod
+k8s kubelet is actively working to pull image and set up the container runtime environment
+
+Error/CrashLoopBackOff/ImagePullBackOff : A clear failure occurred (This is a failure state)
+
+CrashLoopBackOff: it means the kubelet is trying to run the container, but it keeps failing and crashing. If container keeps failing repeatedly despite k8s tries to restart container
+
+ImagePullBackOff: k8s couldn't pull image due to some reason
+
+
+
+Persistent Volume (PV)
+======================
+==> If we delete pod , data is also lost , bcz data is stored locally on the pod == Stateless
+==> If we delete pod, and data in pod is persistent == Stateful (We can store the data in external storage like AWS EBS ..) 
+
+K8S Persistent Volume helps us to manage storage for application(pods) running in k8s cluster
+
+Persistent Volume are independent of pods and they can exists even if pods are not using them
+
+PersistentVolumeClaim (PVC)
+===========================
+==> It is request for storage made by a user or application. It consumes the PV resource
+
+(A request for a specific amount of persistent storage with a defined acess mode)
+
+==================
+Create EBS volume of 20or 30 GB in aws (Follow live class instructions)
+
+$ vi pv.yml
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  awsElasticBlockStore:
+    volumeID: vol-08c5fc53cd3b69b7a
+    fsType: ext4
+
+$ kubectl apply -f pv.yml
+
+$ kubectl get pv
+
+======================
+$ vi pvc.yml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+
+
+$ kubectl apply -f pvc.yml
+
+=====================
+$ vi deployment.yml
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pvdeploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: telusko
+  template:
+    metadata:
+      labels:
+        app: telusko
+    spec:
+      containers:
+      - name: cont1
+        image: centos
+        command: ["/bin/bash", "-c", "sleep 10000"]
+        volumeMounts:
+        - name: my-pv
+          mountPath: "/tmp/persistent" # <-- This line is corrected
+      volumes:
+        - name: my-pv
+          persistentVolumeClaim:
+            claimName: my-pvc
+
+$ kubectl apply -f deployment
+
+$ kubectl get pods
+
+
+
+

@@ -1,0 +1,80 @@
+===================class 9========================
+
+Autoscaling
+===========
+==> Process of increasing / decreasing infrastructure resources based on the demand (traffic, memory, CPU)
+
+==> Types of Scaling
+
+1.Horizontal Scaling
+=> Adding more servers/instances/Pods ( 3 pods --> 6 pods )
+Scale Out --> increasing servers/ pods
+Scale In --> reduces resources( 6 pods --> 2 pods )
+
+HPA(Horizontal Pod Autoscaler)
+
+2.Vertical Scaling
+=> Increases resources of same system ( instead of 2 CPU, give 4 CPUs, 4GB RAM --> 8GB)
+Scale UP --> Increases capacity of same server
+Scale Down --> Reducing resource of same system
+
+Note : In Kubernetes, vertical scaling is less common bcz Pods are meant to be lightweight but you can do Vertical Pod Autoscaler(VPA)
+
+
+Kubernetes Metric Server --> also called Heapster
+=========================
+It is used for monitoring the overall health and performance of k8s cluster, providing data needed for Kubernetes feature like HPA.
+
+Note : Metrics Server will not be present by default in k8s cluster
+
+HPA will interact with Metric Server to identify CPU/Memory utilization of POD
+
+==> This metric server in k8s will collect info like cpu, ram etc for all pods and nodes in the cluster
+
+# Install metrics-server
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/high-availability-1.21+.yaml
+
+
+
+# Try metrics
+kubectl top nodes
+kubectl top pods
+
+Pending Metric server installation
+
+===========================
+Resource Quota
+==============
+
+==> Kubernetes cluster can be divided into namespaces 
+
+==> The Pods in k8s will run with no limitation of Memory and CPU be default
+
+==> We can give limit for Pod (Set limits to CPU, Memory, storage)
+
+No notes added on 25th sep
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

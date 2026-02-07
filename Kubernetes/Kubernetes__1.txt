@@ -1,0 +1,144 @@
+Kubernetes (K8S)
+=================
+
+DevOps with AWS ==> Telusko
+
+Instructor : Hyder Abbas
+
+11th Sep (Thursday)
+================================================================
+
+==> It is free and open source s/w
+==> Developed by Google and currently maintained by CNCF (Cloud native Computing Foundation)
+==> GO Programming Language is used to Develop Kubernetes
+
+==> Kubernetes is an Orchestration Platform
+==> Used to Managed Containers (Create/stop/start/delete/scale-up/scale-down)
+==> It provides framework for managing the complex task of deploying, scaling and operating applications in containers
+
+Advantages 
+===========
+1) Self Healing : If any container get crashed or major issue then it will be replaced with new container
+
+2) Auto Scaling : Based on demand, containers count will be increased or decreased
+
+3) Load Balancing : Load will be distributed among all containers which are up and running
+
+Docker vs K8S
+================
+
+Docker : Containerization platform(packaging our app code and dependencies as single unit for execution)
+
+Kubernetes : Orchestration platform (Managing the containers)
+
+Kubernetes Architecture
+=========================
+
+1) Control Plane/Node (Master Node)
+
+  ==> API Server
+  ==> Schedular
+  ==> Controller Manager
+  ==> ETCD
+
+2) Worker Node
+
+  ==> kubelet
+  ==> kube proxy
+  ==> POD
+  ==> Container
+  ==> Docker
+
+==> To Deploy our app using k8s we need to communicate with Control Plane 
+
+==> We usually use KUBECTL (CLI) to communicate with control plane
+
+-> API Server will receive the request given by kubectl and it will store the request with pending status in etcd
+   (Entry point for all commands. Exposes Kubernetes API (kubectl, REST))
+
+
+-> etcd is an internal database of k8s cluster
+
+-> Schedular will identify the pending requests in etcd and it will identify worker node to schedule the task
+
+-> Schedular will identify worker node using kubelet
+
+-> kubelet is a node agent which will maintain all worker node info
+
+-> kube proxy will provide network for cluster communication
+
+-> Controller Manager will verify all tasks are working fine as expected or not
+
+-> Docker Engine would be present in worker node to run the docker containers
+
+-> In K8S, Containers will be created inside POD 
+(POD is smallest building block that we can create in k8s cluster)
+
+-> Generally in k8s, everything is represented as POD only
+
+===================================================================
+
+POD :
+======
+POD is a smallest building block in the K8S cluster and application will be deployed as pod in k8s
+
+We can create multiple pods for one application
+
+To Create a POD we use YML file (Manifest YML) and POD manifest YML we will configure our Docker image
+
+If POD is damaged/deleted/crashed then k8s will create a new pod (Self-Healing)
+
+If an app is running in multiple pods, then k8s will distribute the load to all the running pos (Load Balancers)
+
+PODS can be increased or decreased automatically based on load (Scalability)
+
+
+
+
+K8S Cluster Setup
+=================
+1) Mini Kube --> Single Node Cluster --> Only for practice or to get started with k8s
+
+2) Kubeadm Cluster --> Self Managed Cluster --> We are responsible for everything
+
+3) Provider Managed Cluster --> Reader made Cluster --> Provider will take care of everything
+        (AWS EKS, Azure AKS, GCP GKE etc ......)
+
+Note : Provider Managed Cluster are paid (Chargeable)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

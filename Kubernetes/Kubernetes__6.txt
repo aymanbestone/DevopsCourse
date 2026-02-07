@@ -1,0 +1,138 @@
+=================class 6======================
+Summary
+=======
+
+Note : K8S manifest file is case sensitive 
+example : Pod is accepted and POD pod will not be accepted
+          apiVersion is accepted and ApiVersion or apiversion all these are not accepted
+
+=> apiVersion:
+     -> It tells K8S which library version to use for your object
+
+     -> Depending on Kubernetes object  we want to create , we have to specify the corresponding version
+example:
+
+Pod : v1
+Service: v1
+NameSpace : v1
+ReplicaSet: apps/v1
+Deployment : apps/v1
+.....
+.....
+
+$ kubectl api-resources
+$ kubectl api-versions
+
+==> kind: <resource-type> 
+    
+-> Type of Kubernetes object you want to create
+example : Pod, Deployement, Service, Ingress..........
+kind: Pod
+
+==> metadata:
+   
+-> the info about k8s object we are creating like name, label etc
+   name: The name of the Deployment
+   labels: key-value pair used for organizing and selecting object
+
+==> spec: <container> 
+-> Specification of the k8s object it could how the traffic is route for Services  or container details for Pods
+  (It contains container info related to image name, port mapping, environment variables ....)
+
+=========================================================
+==> ReplicaSet
+=================
+-> This is used for managing multiple replicas of Pod to perform activities like load balancing and scaling
+
+-> It will create replicas of same pod( we can use same application with multiple pods)
+
+-> Even if one pod is deleted , automatically it will create another pod (self healing)
+
+-> Depends on requirement we can scale the pods
+
+-> we create replicasset
+   replicaset will create pods
+
+LABELS:
+=======
+As we are creating multiple pods same application, all these pods have  diff names but how to group all of them as we have only 1 application with multiple pods and here we give label name to group them
+
+SELECTOR
+========
+It used to select pods with same labels
+
+========================================
+
+ReplicaSet manifest file
+=========================
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: product-rs
+  labels:
+    app: telusko
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: telusko
+  template:
+    metadata:
+      labels:
+        app: telusko
+    spec:
+      containers:
+      - name: cont1
+        image: hacker123shiva/springbt-in-docker:latest
+        ports:
+          - containerPort: 8080
+    
+$ kubectl get pods
+
+$ kubectl get rs    ==> It will show the replicaset created
+
+$ kubectl get rs -o wide
+
+$ kubectl describe rs <name-of-rs>
+
+$ kubectl get pods --show-labels   ==> it will display the pods with label names used by selector 
+
+Run the below command in diff terminal and watch the deletion and scaling 
+$ kubectl get pods --watch   ==> it keeps terminal open and continuously streams update whem something about pods changes
+
+example: kubectl delete pods <pod-name>
+
+You will be able to notice the feature of "self healing"
+
+Scaling of replicas:
+
+$ kubectl scale rs/<name-of-rs> --replicas=10
+
+$ kubectl scale rs/product-rs --replicas=10  ==> manually scaling down
+
+$ kubectl describe pods -l app=telusko | grep -i Image   ==> Image of our app which is used by pod  
+
+Note :
+
+ReplicaSet gives ability to easily run multiple instances of a pod(app)
+
+The rolling-update command won't work with ReplicaSet ( observe live class demonstration by watching live class videos )
+
+The Scale out and Scale in is manual not automatic 
+(later we will learn HPA)
+
+LIFO: LAST IN FIRST OUT
+
+If pod is created last it will be delete first when you will scale down
+
+
+
+
+
+
+
+
+
+
+

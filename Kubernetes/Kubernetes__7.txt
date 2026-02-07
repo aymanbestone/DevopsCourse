@@ -1,0 +1,213 @@
+====================class 7==========================
+
+
+$ kubectl create -f <manifest.yml> vs kubectl apply -f <manifest.yml>
+
+$ kubectl create -f <manifest.yml>
+->Always creates a new resource 
+-> If the resource already exists, it will fail with an error
+
+
+$ kubectl apply -f <manifest.yml>
+-> It will create or update the resource (idempotent - Do it once or do it twice or n times , the end result stay same) 
+-> It creates resource if the resource doesn't exist
+-> It updates resource if it already exsists
+
+K8S Deployment
+===============
+
+==> It's one of the k8s reource/component/object recommended to deploy our app where Deployment will manage pod life cycle
+
+Benefits associated with k8s Deployment
+1) Zero Downtime
+2) Auto Scaling
+3) Rolling update and Rollback
+
+==> When we write manifest yml file inside we define number of pods count(replicas) and Pod template(what containers should run inside pods)
+==> Kubernetes create a ReplicaSet automatically
+==> The ReplicaSet then creates and manages pods
+
+==> It supports self healing, If pod dies, ReplicaSet creates a new one automatically
+
+==> Supports Rolling updates and Rollback (important in production)
+
+$ vi deployment.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-deployment
+  labels:
+    app: telusko
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: telusko
+  template:
+    metadata:
+      labels:
+        app: telusko
+    spec:
+      containers:
+      - name: cont1
+        image: hacker123shiva/springbt-in-docker:latest
+
+
+$ kubectl get pods
+
+$ kubectl get deploy
+or
+$ kubectl get deployment
+
+$ kubectl get rs
+
+$ kubectl get deploy -o wide
+
+$ kubectl describe deploy product-deployment
+
+$ kubectl scale deploy/product-deployment --replicas=10
+
+$ kubectl scale deploy/product-deployment --replicas=4
+
+$ kubectl delete pods <pod-name>
+
+$ kubectl get pods ==> new pod will be created even tho we deleted the pod (self healing nature)
+
+=================
+
+$ kubectl get events
+
+==> kubectl get events is a k8s command to see what's happening inside your cluster - basically system-level logs about resoruces
+
+==> It will show list of events that k8s generates 
+ex: Container image being pulled 
+    pod starting/stopping
+    failed to pull image
+
+=================
+==> k8s deployment supports Rolling Updates and Rollback
+
+$ kubectl describe pod -l app=telusko | grep -i Image
+
+$ vi deployment.yml
+
+change the image 
+
+or 
+$ kubectl edit deploy/product-deployment
+
+change the image
+
+$ kubectl describe pod -l app=telusko | grep -i Image
+
+We will be able to notice the image is diff
+
+$ kubectl get pods
+
+You will notice new pods will be created with a new image we have updated
+
+~$ kubectl rollout status deploy/product-deployment
+
+deployment "product-deployment" successfully rolled out
+
+$ kubectl rollout undo deploy/product-deployment
+
+deployment.apps/product-deployment rolled back
+
+$ kubectl get pods
+
+new pods of old image will be created
+
+$ kubectl describe pod -l app=telusko | grep -i Image
+
+
+We will be able to notice old/earlier image 
+
+========================
+
+$ kubectl delete deploy product-deployment
+deployment.apps "product-deployment" deleted from default namespace
+
+
+$ kubectl get pods
+No resources found in default namespace.
+
+=========================
+Multi-container pod ==> multiple containers within one pod
+
+==> A pod can have 1 one more containers
+
+$ vi multi-container.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: telusko-two-container-pod
+  labels:
+    app: multi-container
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx
+    ports:
+    - containerPort: 80
+  - name: busybox-container
+    image: busybox
+    command: ["sh", "-c", "while true; do echo 'Hello From Busy Box'; sleep 10; done"]
+
+=====
+
+What is Nginx?
+
+Nginx (Engine-X) is a web server and reverse proxy.
+
+Can serve static files (HTML, CSS, JS) or forward traffic to backend apps.
+
+What is BusyBox?
+
+BusyBox is called "The Swiss Army Knife of Linux".
+
+It’s a tiny image with many common Linux commands (sh, ls, cat, echo, etc.).
+
+
+Nginx → lightweight web server.
+
+BusyBox → minimal Linux container (for testing/debugging).
+
+
+=====
+
+
+$ kubectl get pods
+NAME                        READY   STATUS    RESTARTS   AGE
+telusko-two-container-pod   2/2     Running   0          37s
+
+$ kubectl logs telusko-two-container-pod -c busybox-container
+
+
+$ kubectl logs telusko-two-container-pod -c nginx-container
+
+$ kubectl exec -it telusko-two-container-pod -c nginx-container -- sh
+
+# cd /usr/share/nginx/html
+# ls
+50x.html  index.html
+# exit
+
+ubuntu@ip-172-31-41-213:~$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
