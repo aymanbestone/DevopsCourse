@@ -1,0 +1,71 @@
+==================class 19========================
+
+Practical Grafana Prometheus
+============================
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+helm repo add grafana https://grafana.github.io/helm-charts
+
+helm repo update
+
+helm uninstall prometheus -n monitoring
+helm install prometheus prometheus-community/prometheus \
+  -n monitoring \
+  --set server.persistentVolume.enabled=false \
+  --set alertmanager.persistentVolume.enabled=false
+
+
+helm install grafana grafana/grafana --namespace monitoring
+
+Get your 'admin' user password by running:
+
+   kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+
+
+$ kubectl edit svc grafana -n monitoring
+
+type: ClusterIP
+type: LoadBalancer
+
+service/grafana edited
+
+kubectl get svc grafana -n monitoring
+
+
+Add data source as Prometheus 
+server url : http://prometheus-server.monitoring.svc.cluster.local
+
+save and test
+
+import dashboard with id
+(Follow live class instruction)
+
+8171 k8s nodes
+14623 k8s overview
+747 k8s pods metrics
+6417 k8s cluster (Prometheus) 
+14584 argoCD
+
+
+16th OCT (Thursday)
+===================
+Continued with pv and pvc and updated in that section
+
+EFK (Elasticsearch , Fluentd and Kibana)
+=========================================
+Fluentd collects these (pods) logs, forwards them to Elastic Search for storage and Kibana is used to create dashboard showing logs, error rates, api response time, pod specific issues which will help to trouble shoot and resolve issues.
+
+EFK stack provides centralised logging in order to identify problems with servers or applications. It will help us to reach to search all the logs in a single place
+
+
+
+
+
+
+
+
+
+
+
+

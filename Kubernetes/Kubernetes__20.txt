@@ -1,0 +1,130 @@
+Persistent Volume (PV)
+======================
+==> If we delete pod , data is also lost , bcz data is stored locally on the pod == Stateless
+==> If we delete pod, and data in pod is persistent == Stateful (We can store the data in external storage like AWS EBS ..) 
+
+K8S Persistent Volume helps us to manage storage for application(pods) running in k8s cluster
+
+Persistent Volume are independent of pods and they can exists even if pods are not using them
+
+PersistentVolumeClaim (PVC)
+===========================
+==> It is request for storage made by a user or application. It consumes the PV resource
+
+(A request for a specific amount of persistent storage with a defined access mode)
+
+==================
+Create EBS volume of 20 or 30 GB in aws (Follow live class instructions)
+
+$ vi pv.yml
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: ebs.csi.aws.com
+    volumeHandle: vol-0d3c40ac935e8d9cb
+    fsType: ext4
+
+
+$ kubectl apply -f pv.yml
+
+$ kubectl get pv
+
+======================
+$ vi pvc.yml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+
+
+$ kubectl apply -f pvc.yml
+
+===========================================================
+
+
+EBS CSI driver is not installed on this EKS cluster.
+
+The old awsElasticBlockStore PVs rely on the in-tree AWS volume plugin, which is deprecated and won’t work on recent EKS versions (like your v1.32)
+
+Install the AWS EBS CSI driver
+
+This is required for any PV using csi: ebs.csi.aws.com.
+
+Associate IAM OIDC provider (if not done already):
+
+
+eksctl utils associate-iam-oidc-provider --cluster special-cluster1 --region us-east-1 --approve
+ku
+ 
+eksctl create addon \
+  --name aws-ebs-csi-driver \
+  --cluster  special-cluster1 \
+  --region us-east-1 \
+  --force
+
+====================================================
+$ vi deployment.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pvdeploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: telusko
+  template:
+    metadata:
+      labels:
+        app: telusko
+    spec:
+      containers:
+      - name: cont1
+        image: busybox
+        command: ["sleep", "10000"]
+        volumeMounts:
+        - name: my-pv
+          mountPath: "/tmp/persistent"
+      volumes:
+        - name: my-pv
+          persistentVolumeClaim:
+            claimName: my-pvc
+
+
+$ kubectl apply -f deployment
+
+$ kubectl get pods
+
+
+kubectl exec -it pvdeploy-5d4cc66d47-6s6hm -- /bin/sh
+
+cd /temp/persistent/
+
+touch f1.txt f2.txt f3.txt
+
+exit 
+
+kubectl delete pod <pod name>
+
+kubectl exec -it pvdeploy-5d4cc66d47-6s6hm -- /bin/sh
+
+cd /temp/persistent/
+ls
